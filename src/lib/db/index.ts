@@ -1,5 +1,8 @@
-import { drizzle } from "drizzle-orm/node-postgres";
+import { drizzle, type NodePgDatabase } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
+import * as schema from "@/lib/db/schema";
+
+export type Database = NodePgDatabase<typeof schema>;
 
 function getDatabaseUrl(): string {
   const candidates = [
@@ -34,8 +37,17 @@ function getDatabaseUrl(): string {
   return trimmed;
 }
 
-export const pool = new Pool({
-  connectionString: getDatabaseUrl(),
-});
+let cachedPool: Pool | null = null;
+let cachedDb: Database | null = null;
 
-export const db = drizzle(pool);
+export function getPool(): Pool {
+  if (cachedPool) return cachedPool;
+  cachedPool = new Pool({ connectionString: getDatabaseUrl() });
+  return cachedPool;
+}
+
+export function getDb(): Database {
+  if (cachedDb) return cachedDb;
+  cachedDb = drizzle(getPool(), { schema });
+  return cachedDb;
+}
