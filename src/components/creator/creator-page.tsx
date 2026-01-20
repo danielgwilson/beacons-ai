@@ -141,6 +141,50 @@ function LinkBlock({ blockId, data }: { blockId: string; data: unknown }) {
   );
 }
 
+function DirectLinkBlock({ data }: { data: unknown }) {
+  const obj = safeObject(data);
+  const title = safeString(obj.title);
+  const url = safeString(obj.url);
+  const subtitle = safeString(obj.subtitle);
+  if (!url) return null;
+
+  return (
+    <a
+      href={url}
+      target="_blank"
+      rel="noreferrer"
+      className={cn(
+        "group relative block overflow-hidden rounded-3xl border border-black/10 bg-[var(--creator-card)] px-4 py-3 shadow-[0_18px_60px_-40px_rgba(0,0,0,0.35)] backdrop-blur transition",
+        "hover:-translate-y-0.5 hover:shadow-[0_28px_70px_-40px_rgba(0,0,0,0.45)] active:translate-y-0",
+      )}
+    >
+      <div className="absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-100">
+        <div className="absolute -left-20 -top-16 h-48 w-48 rounded-full bg-[var(--creator-accent)]/20 blur-2xl" />
+        <div className="absolute -bottom-24 -right-24 h-56 w-56 rounded-full bg-[var(--creator-btn-bg)]/25 blur-3xl" />
+      </div>
+      <div className="flex items-center justify-between gap-3">
+        <div className="min-w-0">
+          <div className="truncate font-semibold tracking-tight">
+            {title || "Link"}
+          </div>
+          {subtitle ? (
+            <div className="truncate text-sm text-[var(--creator-muted)]">
+              {subtitle}
+            </div>
+          ) : null}
+        </div>
+        <Badge
+          variant="secondary"
+          className="shrink-0 rounded-full bg-background/70"
+        >
+          Open
+        </Badge>
+      </div>
+      <div className="sr-only">{url}</div>
+    </a>
+  );
+}
+
 function TextBlock({ data }: { data: unknown }) {
   const obj = safeObject(data);
   const title = safeString(obj.title);
@@ -388,12 +432,20 @@ function ContactBlock({
   );
 }
 
-function renderBlock(block: BlockRow, profileId: string) {
+function renderBlock(
+  block: BlockRow,
+  profileId: string,
+  linkMode: "tracked" | "direct",
+) {
   if (!block.enabled) return null;
 
   switch (block.type) {
     case "link":
-      return <LinkBlock blockId={block.id} data={block.data} />;
+      return linkMode === "direct" ? (
+        <DirectLinkBlock data={block.data} />
+      ) : (
+        <LinkBlock blockId={block.id} data={block.data} />
+      );
     case "text":
       return <TextBlock data={block.data} />;
     case "image":
@@ -415,11 +467,20 @@ export function CreatorPage({
   profile,
   blocks,
   showPreviewBadge,
+  hidePreviewBadge,
+  disableAnalytics,
+  linkMode = "tracked",
 }: {
   profile: Profile;
   blocks: BlockRow[];
   showPreviewBadge?: boolean;
+  hidePreviewBadge?: boolean;
+  disableAnalytics?: boolean;
+  linkMode?: "tracked" | "direct";
 }) {
+  const showBadge = Boolean(showPreviewBadge && !hidePreviewBadge);
+  const shouldTrack = !(disableAnalytics || showPreviewBadge);
+
   return (
     <div
       className="min-h-screen"
@@ -432,7 +493,7 @@ export function CreatorPage({
       >
         <div className="mx-auto w-full max-w-md space-y-6">
           <header className="flex flex-col items-center text-center">
-            {showPreviewBadge ? (
+            {showBadge ? (
               <div className="mb-3 inline-flex items-center rounded-full border bg-[var(--creator-card)] px-3 py-1 text-xs text-[var(--creator-muted)]">
                 Preview
               </div>
@@ -465,7 +526,7 @@ export function CreatorPage({
           <div className="grid gap-3">
             {blocks.map((b) => (
               <React.Fragment key={b.id}>
-                {renderBlock(b, profile.id)}
+                {renderBlock(b, profile.id, linkMode)}
               </React.Fragment>
             ))}
           </div>
@@ -478,9 +539,7 @@ export function CreatorPage({
         </div>
       </div>
 
-      {!showPreviewBadge ? (
-        <CreatorAnalyticsBeacon handle={profile.handle} />
-      ) : null}
+      {shouldTrack ? <CreatorAnalyticsBeacon handle={profile.handle} /> : null}
     </div>
   );
 }
