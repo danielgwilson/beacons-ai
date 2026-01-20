@@ -10,8 +10,14 @@ import { getDb } from "@/lib/db";
 import { blocks } from "@/lib/db/schema";
 import { getMyWorkspaceAndProfile } from "@/lib/me";
 import { coerceCreatorTheme } from "@/lib/theme";
+import { THEME_PRESET_IDS, THEME_PRESETS } from "@/lib/theme-presets";
 
-import { updateHandle, updateProfile, updateTheme } from "./actions";
+import {
+  applyThemePreset,
+  updateHandle,
+  updateProfile,
+  updateTheme,
+} from "./actions";
 
 function safeString(value: unknown): string {
   return typeof value === "string" ? value : "";
@@ -95,6 +101,24 @@ export default async function SettingsPage() {
         <Card className="sundae-card p-6">
           <div className="text-sm font-medium">Theme</div>
           <Separator className="my-4" />
+          <div className="grid gap-3">
+            <div className="text-xs text-muted-foreground">Presets (fast)</div>
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+              {THEME_PRESET_IDS.map((id) => (
+                <form key={id} action={applyThemePreset.bind(null, id)}>
+                  <Button
+                    type="submit"
+                    variant="secondary"
+                    className="h-10 w-full rounded-2xl"
+                  >
+                    {THEME_PRESETS[id].name}
+                  </Button>
+                </form>
+              ))}
+            </div>
+          </div>
+
+          <Separator className="my-6" />
           <form className="grid gap-4" action={updateTheme}>
             <div className="grid gap-2">
               <Label htmlFor="background">Background</Label>

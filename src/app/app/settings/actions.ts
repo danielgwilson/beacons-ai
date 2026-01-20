@@ -6,6 +6,7 @@ import { getDb } from "@/lib/db";
 import { creatorProfiles } from "@/lib/db/schema";
 import { normalizeHandle, validateHandle } from "@/lib/handles";
 import { getMyWorkspaceAndProfile } from "@/lib/me";
+import { THEME_PRESETS, type ThemePresetId } from "@/lib/theme-presets";
 
 function safeString(value: FormDataEntryValue | null): string {
   return typeof value === "string" ? value.trim() : "";
@@ -99,6 +100,24 @@ export async function updateTheme(formData: FormData) {
   await db
     .update(creatorProfiles)
     .set({ theme: nextTheme, updatedAt: new Date() })
+    .where(eq(creatorProfiles.id, profile.id));
+
+  revalidatePath("/app/settings");
+  revalidatePath(`/${profile.handle}`);
+}
+
+export async function applyThemePreset(preset: ThemePresetId) {
+  const db = getDb();
+  const { profile } = await getMyWorkspaceAndProfile();
+
+  const entry = THEME_PRESETS[preset];
+  if (!entry) {
+    throw new Error("Unknown theme preset.");
+  }
+
+  await db
+    .update(creatorProfiles)
+    .set({ theme: entry.theme, updatedAt: new Date() })
     .where(eq(creatorProfiles.id, profile.id));
 
   revalidatePath("/app/settings");
