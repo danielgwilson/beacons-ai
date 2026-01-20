@@ -233,4 +233,118 @@
   .sundae-subtitle {
     text-wrap: pretty;
   }
+
+  .sundae-phone-frame {
+    @apply relative overflow-hidden rounded-[2.35rem] border bg-background/60 shadow-[0_28px_80px_-44px_rgba(0,0,0,0.45)];
+  }
+
+  .sundae-phone-frame::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    padding: 2px;
+    background: linear-gradient(
+      135deg,
+      oklch(0.72 0.2 12 / 50%),
+      oklch(0.78 0.14 150 / 45%),
+      oklch(0.7 0.14 250 / 45%)
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  .sundae-press-logo {
+    @apply inline-flex items-center gap-2 rounded-full border bg-background/70 px-3 py-1 text-xs font-semibold tracking-tight text-foreground/80 shadow-sm backdrop-blur;
+    letter-spacing: -0.02em;
+  }
+
+  .sundae-press-dot {
+    @apply h-1.5 w-1.5 rounded-full bg-primary/70;
+    box-shadow:
+      0 0 0 4px oklch(0.63 0.23 12 / 16%),
+      0 0 0 9px oklch(0.7 0.14 250 / 8%);
+  }
+
+  .sundae-marquee {
+    @apply relative overflow-hidden rounded-3xl border bg-background/70 px-4 py-3 shadow-sm backdrop-blur;
+  }
+
+  .sundae-marquee::before,
+  .sundae-marquee::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 90px;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .sundae-marquee::before {
+    left: 0;
+    background: linear-gradient(90deg, var(--background), transparent);
+  }
+
+  .sundae-marquee::after {
+    right: 0;
+    background: linear-gradient(270deg, var(--background), transparent);
+  }
+
+  .sundae-marquee-track {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: max-content;
+  }
+
+  .sundae-marquee-chip {
+    @apply inline-flex items-center gap-2 rounded-full border bg-background/70 px-3 py-1 text-xs font-semibold tracking-tight text-muted-foreground shadow-sm;
+    backdrop-filter: blur(10px);
+    white-space: nowrap;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .sundae-float {
+      animation: sundae-float 10s ease-in-out infinite;
+      will-change: transform;
+    }
+
+    .sundae-float-fast {
+      animation-duration: 7.5s;
+    }
+
+    .sundae-marquee-track {
+      animation: sundae-marquee 34s linear infinite;
+      will-change: transform;
+    }
+  }
+
+  @keyframes sundae-float {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0) rotate(-0.6deg);
+    }
+
+    50% {
+      transform: translate3d(0, -10px, 0) rotate(0.6deg);
+    }
+  }
+
+  @keyframes sundae-marquee {
+    0% {
+      transform: translate3d(0, 0, 0);
+    }
+
+    100% {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
 }
