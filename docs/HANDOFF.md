@@ -7,6 +7,10 @@
   - DB: Drizzle schema + migrations (`src/lib/db/schema.ts`, `src/lib/db/drizzle/`)
   - Public pages: `/{handle}` renders blocks and tracks views/clicks
   - App: `/app/*` pages for editor, analytics, leads, settings
+- UI/brand refresh (Jan 20, 2026):
+  - New font stack + tokenized palette/elevation in `src/app/globals.css`
+  - Pixel-cloud + grid animated backdrop (`src/components/brand/pixel-cloud-grid.tsx`)
+  - Updated landing/signin/app shell + creator page visuals, plus refreshed theme presets
 - First sign-in provisions:
   - `users` row, a personal `workspace`, `workspace_members` owner membership, and a `creator_profile`
   - A few starter blocks (link + social; signup disabled)

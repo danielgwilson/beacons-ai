@@ -45,7 +45,7 @@ export default async function SettingsPage() {
           </p>
         </div>
 
-        <Card className="sundae-card p-6">
+        <Card className="p-6">
           <div className="text-sm font-medium">Profile</div>
           <Separator className="my-4" />
           <form className="grid gap-4" action={updateProfile}>
@@ -80,7 +80,7 @@ export default async function SettingsPage() {
           </form>
         </Card>
 
-        <Card className="sundae-card p-6">
+        <Card className="p-6">
           <div className="text-sm font-medium">Handle</div>
           <Separator className="my-4" />
           <form className="grid gap-4" action={updateHandle}>
@@ -89,7 +89,7 @@ export default async function SettingsPage() {
               <Input id="handle" name="handle" defaultValue={profile.handle} />
               <div className="text-xs text-muted-foreground">
                 Your public URL:{" "}
-                <span className="font-mono">/{profile.handle}</span>
+                <span className="brand-mono">/{profile.handle}</span>
               </div>
             </div>
             <Button type="submit" className="h-10 rounded-full">
@@ -98,7 +98,7 @@ export default async function SettingsPage() {
           </form>
         </Card>
 
-        <Card className="sundae-card p-6">
+        <Card className="p-6">
           <div className="text-sm font-medium">Theme</div>
           <Separator className="my-4" />
           <div className="grid gap-3">
@@ -108,9 +108,14 @@ export default async function SettingsPage() {
                 <form key={id} action={applyThemePreset.bind(null, id)}>
                   <Button
                     type="submit"
-                    variant="secondary"
-                    className="h-10 w-full rounded-2xl"
+                    variant="outline"
+                    className="h-10 w-full justify-start gap-2 rounded-2xl"
                   >
+                    <span
+                      aria-hidden="true"
+                      className="h-2.5 w-2.5 rounded-full"
+                      style={{ background: THEME_PRESETS[id].theme.accent }}
+                    />
                     {THEME_PRESETS[id].name}
                   </Button>
                 </form>
@@ -203,7 +208,7 @@ export default async function SettingsPage() {
         </Card>
       </div>
 
-      <div className="sticky top-24 h-fit overflow-hidden rounded-3xl border bg-background/70 shadow-sm backdrop-blur">
+      <div className="brand-screen sticky top-24 h-fit overflow-hidden">
         <CreatorPage
           showPreviewBadge
           profile={{

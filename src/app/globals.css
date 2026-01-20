@@ -6,9 +6,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sundae-sans);
-  --font-mono: var(--font-sundae-mono);
-  --font-display: var(--font-sundae-display);
+  --font-sans: var(--font-brand-sans);
+  --font-mono: var(--font-brand-mono);
+  --font-display: var(--font-brand-display);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -48,93 +48,110 @@
 }
 
 :root {
-  --radius: 1rem;
+  --radius: 1.05rem;
 
-  /* Sundae palette: creamy surfaces + candy accents */
-  --background: oklch(0.985 0.015 85);
-  --foreground: oklch(0.2 0.03 40);
+  /* Brand: crisp ink on warm paper, with electric accents. */
+  --background: oklch(0.985 0.01 95);
+  --foreground: oklch(0.17 0.02 265);
 
-  --card: oklch(0.995 0.01 85);
+  --card: oklch(0.995 0.01 95);
   --card-foreground: var(--foreground);
-  --popover: oklch(0.995 0.01 85);
+  --popover: oklch(0.995 0.01 95);
   --popover-foreground: var(--foreground);
 
-  /* Strawberry */
-  --primary: oklch(0.63 0.23 12);
-  --primary-foreground: oklch(0.985 0.015 85);
+  /* Electric lime (primary) */
+  --primary: oklch(0.88 0.23 145);
+  --primary-foreground: oklch(0.16 0.02 265);
 
-  /* Pistachio */
-  --secondary: oklch(0.93 0.05 140);
-  --secondary-foreground: oklch(0.25 0.03 40);
+  /* Soft paper tint (secondary) */
+  --secondary: oklch(0.95 0.02 95);
+  --secondary-foreground: var(--foreground);
 
-  --muted: oklch(0.965 0.02 85);
-  --muted-foreground: oklch(0.52 0.03 45);
+  --muted: oklch(0.965 0.01 95);
+  --muted-foreground: oklch(0.49 0.02 265);
 
-  /* Blueberry ink */
-  --accent: oklch(0.9 0.05 250);
-  --accent-foreground: oklch(0.22 0.04 265);
+  /* Sky/cyan accent (for rings + info states) */
+  --accent: oklch(0.9 0.08 225);
+  --accent-foreground: oklch(0.18 0.03 255);
 
-  --destructive: oklch(0.62 0.23 27);
-  --border: oklch(0.9 0.03 85);
-  --input: oklch(0.92 0.03 85);
-  --ring: oklch(0.7 0.14 12);
+  --destructive: oklch(0.62 0.25 25);
+  --border: oklch(0.9 0.015 95);
+  --input: oklch(0.935 0.015 95);
+  --ring: oklch(0.78 0.16 225);
 
-  --chart-1: oklch(0.63 0.23 12);
-  --chart-2: oklch(0.78 0.14 150);
-  --chart-3: oklch(0.7 0.14 250);
-  --chart-4: oklch(0.76 0.17 70);
-  --chart-5: oklch(0.62 0.18 330);
+  --chart-1: oklch(0.88 0.23 145);
+  --chart-2: oklch(0.74 0.16 225);
+  --chart-3: oklch(0.67 0.21 330);
+  --chart-4: oklch(0.76 0.16 80);
+  --chart-5: oklch(0.7 0.16 265);
 
   --sidebar: var(--background);
   --sidebar-foreground: var(--foreground);
   --sidebar-primary: var(--primary);
   --sidebar-primary-foreground: var(--primary-foreground);
-  --sidebar-accent: oklch(0.96 0.02 85);
+  --sidebar-accent: oklch(0.965 0.01 95);
   --sidebar-accent-foreground: var(--foreground);
   --sidebar-border: var(--border);
   --sidebar-ring: var(--ring);
+
+  --shadow-elev:
+    0 1px 0 0 oklch(0.17 0.02 265 / 10%), 0 18px 40px -24px
+    oklch(0.17 0.02 265 / 35%);
+
+  /* Backdrop tints for pixel-cloud + grid. */
+  --pixel-cloud-a: oklch(0.88 0.23 145 / 20%);
+  --pixel-cloud-b: oklch(0.9 0.08 225 / 18%);
+  --pixel-cloud-c: oklch(0.67 0.21 330 / 14%);
 }
 
 .dark {
-  --background: oklch(0.19 0.03 40);
-  --foreground: oklch(0.985 0.015 85);
+  --background: oklch(0.16 0.02 265);
+  --foreground: oklch(0.985 0.01 95);
 
-  --card: oklch(0.23 0.03 40);
+  --card: oklch(0.2 0.02 265);
   --card-foreground: var(--foreground);
-  --popover: oklch(0.23 0.03 40);
+  --popover: oklch(0.2 0.02 265);
   --popover-foreground: var(--foreground);
 
-  --primary: oklch(0.72 0.2 12);
-  --primary-foreground: oklch(0.2 0.03 40);
+  --primary: oklch(0.88 0.23 145);
+  --primary-foreground: oklch(0.15 0.02 265);
 
-  --secondary: oklch(0.3 0.03 140);
+  --secondary: oklch(0.23 0.02 265);
   --secondary-foreground: var(--foreground);
 
-  --muted: oklch(0.26 0.02 40);
-  --muted-foreground: oklch(0.78 0.02 85);
+  --muted: oklch(0.22 0.02 265);
+  --muted-foreground: oklch(0.78 0.01 95);
 
-  --accent: oklch(0.34 0.04 250);
+  --accent: oklch(0.26 0.05 225);
   --accent-foreground: var(--foreground);
 
-  --destructive: oklch(0.66 0.21 27);
-  --border: oklch(0.985 0.015 85 / 12%);
-  --input: oklch(0.985 0.015 85 / 14%);
-  --ring: oklch(0.76 0.14 12);
+  --destructive: oklch(0.7 0.2 25);
+  --border: oklch(0.985 0.01 95 / 12%);
+  --input: oklch(0.985 0.01 95 / 14%);
+  --ring: oklch(0.86 0.14 225);
 
-  --chart-1: oklch(0.72 0.2 12);
-  --chart-2: oklch(0.75 0.12 150);
-  --chart-3: oklch(0.7 0.14 250);
-  --chart-4: oklch(0.78 0.15 70);
-  --chart-5: oklch(0.72 0.16 330);
+  --chart-1: oklch(0.88 0.23 145);
+  --chart-2: oklch(0.74 0.16 225);
+  --chart-3: oklch(0.67 0.21 330);
+  --chart-4: oklch(0.76 0.16 80);
+  --chart-5: oklch(0.7 0.16 265);
 
-  --sidebar: oklch(0.21 0.03 40);
+  --sidebar: oklch(0.18 0.02 265);
   --sidebar-foreground: var(--foreground);
   --sidebar-primary: var(--primary);
   --sidebar-primary-foreground: var(--primary-foreground);
-  --sidebar-accent: oklch(0.25 0.02 40);
+  --sidebar-accent: oklch(0.2 0.02 265);
   --sidebar-accent-foreground: var(--foreground);
   --sidebar-border: var(--border);
   --sidebar-ring: var(--ring);
+
+  --shadow-elev:
+    0 1px 0 0 oklch(0.985 0.01 95 / 10%), 0 22px 60px -34px
+    oklch(0.05 0.02 265 / 70%);
+
+  --pixel-cloud-a: oklch(0.88 0.23 145 / 18%);
+  --pixel-cloud-b: oklch(0.74 0.16 225 / 16%);
+  --pixel-cloud-c: oklch(0.67 0.21 330 / 12%);
 }
 
 @layer base {
@@ -142,7 +159,7 @@
     overflow-x: clip;
   }
 
-  @supports not (overflow: clip) {
+  @supports not (overflow-x: clip) {
     html {
       overflow-x: hidden;
     }
@@ -161,105 +178,41 @@
   h2,
   h3 {
     font-family: var(--font-display);
-    letter-spacing: -0.03em;
+    letter-spacing: -0.04em;
+  }
+
+  ::selection {
+    background: oklch(0.88 0.23 145 / 45%);
+    color: oklch(0.16 0.02 265);
   }
 }
 
 @layer utilities {
-  .sundae-wrap {
-    position: relative;
-    isolation: isolate;
-  }
-
-  .sundae-wrap::before {
-    content: "";
-    position: absolute;
-    inset: -20vh -20vw;
-    z-index: -2;
-    background:
-      radial-gradient(
-        900px 520px at 14% 14%,
-        oklch(0.94 0.08 12 / 55%),
-        transparent 60%
-      ),
-      radial-gradient(
-        760px 520px at 92% 18%,
-        oklch(0.92 0.09 250 / 55%),
-        transparent 65%
-      ),
-      radial-gradient(
-        680px 520px at 68% 88%,
-        oklch(0.93 0.08 140 / 50%),
-        transparent 62%
-      ), linear-gradient(180deg, oklch(0.99 0.01 85), oklch(0.975 0.02 85));
-    filter: saturate(1.05);
-  }
-
-  .sundae-wrap::after {
-    content: "";
-    position: absolute;
-    inset: -30vh -30vw;
-    z-index: -1;
-    pointer-events: none;
-    background-image:
-      radial-gradient(
-        circle at 10px 10px,
-        oklch(0.72 0.2 12 / 0.22) 0 2px,
-        transparent 3px
-      ),
-      radial-gradient(
-        circle at 60px 28px,
-        oklch(0.7 0.14 250 / 0.18) 0 2px,
-        transparent 3px
-      ),
-      radial-gradient(
-        circle at 90px 70px,
-        oklch(0.78 0.14 150 / 0.16) 0 2px,
-        transparent 3px
-      ),
-      radial-gradient(
-        circle at 30px 86px,
-        oklch(0.76 0.15 70 / 0.16) 0 2px,
-        transparent 3px
-      );
-    background-size: 120px 120px;
-    opacity: 0.35;
-    mix-blend-mode: multiply;
-  }
-
-  .sundae-card {
-    @apply rounded-3xl border bg-card/70 shadow-[0_18px_60px_-28px_rgba(0,0,0,0.25)];
-    backdrop-filter: blur(10px);
-  }
-
-  .sundae-chip {
-    @apply inline-flex items-center gap-2 rounded-full border bg-background/70 px-3 py-1 text-xs text-muted-foreground;
-    backdrop-filter: blur(10px);
-  }
-
-  .sundae-title {
+  .brand-title {
     text-wrap: balance;
   }
 
-  .sundae-subtitle {
+  .brand-subtitle {
     text-wrap: pretty;
   }
 
-  .sundae-phone-frame {
-    @apply relative overflow-hidden rounded-[2.35rem] border bg-background/60 shadow-[0_28px_80px_-44px_rgba(0,0,0,0.45)];
+  .brand-card {
+    @apply relative overflow-hidden rounded-3xl border bg-card/72;
+    box-shadow: var(--shadow-elev);
+    backdrop-filter: blur(10px);
   }
 
-  .sundae-phone-frame::before {
+  .brand-card::before {
     content: "";
     position: absolute;
-    inset: -2px;
+    inset: -1px;
     border-radius: inherit;
-    padding: 2px;
+    padding: 1px;
     background: linear-gradient(
       135deg,
-      oklch(0.72 0.2 12 / 50%),
-      oklch(0.78 0.14 150 / 45%),
-      oklch(0.7 0.14 250 / 45%)
+      oklch(0.88 0.23 145 / 22%),
+      oklch(0.9 0.08 225 / 18%),
+      oklch(0.67 0.21 330 / 16%)
     );
     -webkit-mask:
       linear-gradient(#000 0 0) content-box,
@@ -270,17 +223,168 @@
       linear-gradient(#000 0 0);
     mask-composite: exclude;
     pointer-events: none;
+    opacity: 0.9;
   }
 
-  .sundae-embed {
+  .brand-chip {
+    @apply inline-flex items-center gap-2 rounded-full border bg-background/70 px-3 py-1 text-xs text-muted-foreground;
+    backdrop-filter: blur(10px);
+  }
+
+  .brand-screen {
+    @apply relative overflow-hidden rounded-[2.2rem] border bg-background/55;
+    box-shadow: var(--shadow-elev);
+  }
+
+  .brand-screen::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(
+        680px 480px at 10% 18%,
+        oklch(0.88 0.23 145 / 18%),
+        transparent 55%
+      ),
+      radial-gradient(
+        760px 520px at 92% 14%,
+        oklch(0.9 0.08 225 / 16%),
+        transparent 58%
+      );
+    opacity: 0.85;
+    mix-blend-mode: multiply;
+  }
+
+  .brand-embed {
     height: 640px;
     overflow: hidden;
-    border-radius: 2.1rem;
+    border-radius: 2rem;
     background: var(--background);
   }
 
-  .sundae-embed-scale {
+  .brand-embed-scale {
     transform: scale(0.82);
     transform-origin: top center;
+  }
+
+  .brand-mono {
+    font-family: var(--font-mono);
+  }
+
+  @keyframes pixel-grid-drift {
+    from {
+      background-position:
+        0 0,
+        0 0,
+        0 0;
+    }
+    to {
+      background-position:
+        144px 96px,
+        -96px 48px,
+        72px 144px;
+    }
+  }
+
+  .pixel-grid {
+    background-image:
+      linear-gradient(to right, oklch(0.17 0.02 265 / 8%) 1px, transparent 1px),
+      linear-gradient(to bottom, oklch(0.17 0.02 265 / 8%) 1px, transparent 1px),
+      radial-gradient(
+        circle at 12px 12px,
+        oklch(0.17 0.02 265 / 10%) 0 1px,
+        transparent 2px
+      );
+    background-size:
+      48px 48px,
+      48px 48px,
+      24px 24px;
+    animation: pixel-grid-drift 26s linear infinite;
+    image-rendering: pixelated;
+    mix-blend-mode: multiply;
+  }
+
+  .creator-grid {
+    background-image:
+      linear-gradient(
+        to right,
+        color-mix(in oklab, var(--creator-text) 12%, transparent) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        to bottom,
+        color-mix(in oklab, var(--creator-text) 12%, transparent) 1px,
+        transparent 1px
+      ),
+      radial-gradient(
+        circle at 12px 12px,
+        color-mix(in oklab, var(--creator-text) 14%, transparent) 0 1px,
+        transparent 2px
+      );
+    background-size:
+      48px 48px,
+      48px 48px,
+      24px 24px;
+    animation: pixel-grid-drift 28s linear infinite;
+    image-rendering: pixelated;
+    mix-blend-mode: overlay;
+    mask-image: radial-gradient(65% 60% at 50% 10%, #000 18%, transparent 75%);
+    opacity: 0.22;
+  }
+
+  .dark .pixel-grid {
+    background-image:
+      linear-gradient(to right, oklch(0.985 0.01 95 / 10%) 1px, transparent 1px),
+      linear-gradient(
+        to bottom,
+        oklch(0.985 0.01 95 / 10%) 1px,
+        transparent 1px
+      ),
+      radial-gradient(
+        circle at 12px 12px,
+        oklch(0.985 0.01 95 / 12%) 0 1px,
+        transparent 2px
+      );
+    mix-blend-mode: screen;
+  }
+
+  .pixel-noise {
+    background-image:
+      radial-gradient(
+        circle at 1px 1px,
+        oklch(0.17 0.02 265 / 13%) 0 1px,
+        transparent 2px
+      ),
+      radial-gradient(
+        circle at 3px 2px,
+        oklch(0.17 0.02 265 / 10%) 0 1px,
+        transparent 2px
+      );
+    background-size: 4px 4px;
+    filter: blur(0.2px);
+    mix-blend-mode: multiply;
+  }
+
+  .dark .pixel-noise {
+    background-image:
+      radial-gradient(
+        circle at 1px 1px,
+        oklch(0.985 0.01 95 / 12%) 0 1px,
+        transparent 2px
+      ),
+      radial-gradient(
+        circle at 3px 2px,
+        oklch(0.985 0.01 95 / 10%) 0 1px,
+        transparent 2px
+      );
+    mix-blend-mode: screen;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pixel-grid,
+    .creator-grid {
+      animation: none;
+    }
   }
 }

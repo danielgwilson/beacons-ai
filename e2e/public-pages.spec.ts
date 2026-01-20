@@ -2,11 +2,9 @@ import { expect, test } from "@playwright/test";
 
 test("landing page and demo render", async ({ page }) => {
   await page.goto("/");
-  await expect(
-    page.getByRole("heading", { name: /doesn’t look like a template/i }),
-  ).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1 }).first()).toBeVisible();
 
-  await page.getByRole("link", { name: "View demo" }).first().click();
+  await page.locator('a[href="/demo"]').first().click();
   await expect(page).toHaveURL(/\/demo$/);
   await expect(page.getByText("Demo Creator")).toBeVisible();
   await expect(page.getByText("Tip jar")).toBeVisible();

@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import * as React from "react";
 import { cn } from "@/lib/utils";
 
 const NAV = [
@@ -12,14 +13,79 @@ const NAV = [
 
 export function AppNav({ className }: { className?: string }) {
   const pathname = usePathname();
+  const containerRef = React.useRef<HTMLDivElement | null>(null);
+  const linkRefs = React.useRef<Record<string, HTMLAnchorElement | null>>({});
+  const [indicator, setIndicator] = React.useState<{
+    left: number;
+    width: number;
+    opacity: number;
+  }>({ left: 0, width: 0, opacity: 0 });
+
+  const updateIndicator = React.useCallback(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const activeItem = NAV.find(
+      (item) => pathname === item.href || pathname?.startsWith(item.href),
+    );
+    if (!activeItem) {
+      setIndicator((prev) => ({ ...prev, opacity: 0 }));
+      return;
+    }
+
+    const el = linkRefs.current[activeItem.href];
+    if (!el) return;
+
+    const c = container.getBoundingClientRect();
+    const r = el.getBoundingClientRect();
+
+    setIndicator({
+      left: r.left - c.left,
+      width: r.width,
+      opacity: 1,
+    });
+  }, [pathname]);
+
+  React.useLayoutEffect(() => {
+    updateIndicator();
+  }, [updateIndicator]);
+
+  React.useEffect(() => {
+    updateIndicator();
+    const container = containerRef.current;
+    if (!container) return;
+
+    const ro = new ResizeObserver(updateIndicator);
+    ro.observe(container);
+    window.addEventListener("resize", updateIndicator, { passive: true });
+
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", updateIndicator);
+    };
+  }, [updateIndicator]);
 
   return (
     <div
+      ref={containerRef}
       className={cn(
-        "flex flex-wrap items-center gap-1 rounded-full border bg-background/70 p-1 shadow-sm backdrop-blur",
+        [
+          "relative flex flex-wrap items-center gap-1",
+          "rounded-full border bg-background/60 p-1 shadow-sm backdrop-blur",
+          "overflow-hidden",
+        ].join(" "),
         className,
       )}
     >
+      <div
+        aria-hidden="true"
+        className="absolute inset-y-1 left-1 rounded-full bg-primary/90 shadow-[0_10px_24px_-18px_oklch(0.17_0.02_265/40%)] transition-[transform,width,opacity] duration-300 ease-out"
+        style={{
+          width: `${Math.max(0, indicator.width)}px`,
+          transform: `translateX(${indicator.left}px)`,
+          opacity: indicator.opacity,
+        }}
+      />
       {NAV.map((item) => {
         const active =
           pathname === item.href || pathname?.startsWith(item.href);
@@ -30,10 +96,17 @@ export function AppNav({ className }: { className?: string }) {
             href={item.href}
             data-active={active ? "true" : "false"}
             className={cn(
-              "rounded-full px-3 py-2 text-sm font-medium text-muted-foreground transition",
-              "hover:text-foreground",
-              "data-[active=true]:bg-primary data-[active=true]:text-primary-foreground data-[active=true]:shadow-sm",
+              [
+                "relative z-10 rounded-full px-4 py-2 text-sm font-semibold tracking-tight",
+                "transition-[transform,color,opacity] duration-200",
+                "hover:-translate-y-0.5",
+                "data-[active=true]:text-primary-foreground data-[active=false]:text-muted-foreground",
+                "data-[active=false]:hover:text-foreground",
+              ].join(" "),
             )}
+            ref={(node) => {
+              linkRefs.current[item.href] = node;
+            }}
           >
             {item.label}
           </a>

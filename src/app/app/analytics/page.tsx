@@ -13,7 +13,10 @@ function Bar({ value, max }: { value: number; max: number }) {
   const pct = max > 0 ? Math.round((value / max) * 100) : 0;
   return (
     <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
-      <div className="h-full bg-primary" style={{ width: `${pct}%` }} />
+      <div
+        className="h-full bg-[linear-gradient(90deg,oklch(0.88_0.23_145),oklch(0.9_0.08_225))]"
+        style={{ width: `${pct}%` }}
+      />
     </div>
   );
 }
@@ -64,7 +67,7 @@ export default async function AnalyticsPage() {
         </p>
       </div>
 
-      <Card className="sundae-card p-6">
+      <Card className="p-6">
         <div className="text-sm font-medium">Daily</div>
         <div className="mt-4 grid gap-3">
           {days.length === 0 ? (
@@ -97,11 +100,11 @@ export default async function AnalyticsPage() {
         </div>
       </Card>
 
-      <Card className="sundae-card p-6">
+      <Card className="p-6">
         <div className="flex items-center justify-between gap-4">
           <div className="text-sm font-medium">Top destinations</div>
           <a href={`/${profile.handle}`}>
-            <Button variant="secondary" className="rounded-full">
+            <Button variant="outline" className="rounded-full">
               View public page
             </Button>
           </a>

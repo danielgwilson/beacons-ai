@@ -1,7 +1,7 @@
-import { Sparkles } from "lucide-react";
 import { redirect } from "next/navigation";
 import { signOut } from "@/auth";
 import { AppNav } from "@/components/app/app-nav";
+import { BrandMark } from "@/components/brand/brand-mark";
 import { Button } from "@/components/ui/button";
 import { clearE2EEmail, getAuthIdentity } from "@/lib/server/auth-identity";
 
@@ -17,24 +17,29 @@ export default async function AppLayout({
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="sticky top-0 z-10 border-b bg-background/75 backdrop-blur">
+      <header className="sticky top-0 z-20 border-b bg-background/70 backdrop-blur">
         <div className="mx-auto max-w-6xl px-6 py-4">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <a href="/app" className="inline-flex items-center gap-2">
-                <span className="grid h-9 w-9 place-items-center rounded-2xl border bg-background/70 shadow-sm">
-                  <Sparkles className="h-4 w-4 text-primary" />
-                </span>
-                <span className="font-semibold tracking-tight">Sundae</span>
+              <a
+                href="/app"
+                className="group inline-flex items-center gap-3"
+                aria-label="Sundae Studio"
+              >
+                <BrandMark className="h-9 w-9 transition-transform duration-200 group-hover:-translate-y-0.5" />
+                <div className="leading-tight">
+                  <div className="text-sm font-semibold tracking-tight">
+                    Sundae
+                  </div>
+                  <div className="text-xs text-muted-foreground">Studio</div>
+                </div>
               </a>
-              <div className="hidden text-sm text-muted-foreground sm:block">
-                Studio
-              </div>
             </div>
 
-            <AppNav />
+            <AppNav className="order-3 w-full sm:order-none sm:w-auto" />
 
             <form
+              className="order-2 sm:order-none"
               action={async () => {
                 "use server";
                 if (process.env.E2E === "1") {
@@ -44,18 +49,14 @@ export default async function AppLayout({
                 await signOut({ redirectTo: "/" });
               }}
             >
-              <Button
-                type="submit"
-                variant="secondary"
-                className="rounded-full"
-              >
+              <Button type="submit" variant="outline" className="rounded-full">
                 Sign out
               </Button>
             </form>
           </div>
         </div>
       </header>
-      <main className="mx-auto max-w-6xl px-6 py-8">{children}</main>
+      <main className="mx-auto max-w-6xl px-6 py-10">{children}</main>
     </div>
   );
 }

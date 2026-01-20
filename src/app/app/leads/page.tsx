@@ -24,7 +24,7 @@ export default async function LeadsPage() {
         </p>
       </div>
 
-      <Card className="sundae-card p-6">
+      <Card className="p-6">
         {rows.length === 0 ? (
           <div className="text-sm text-muted-foreground">
             No leads yet. Add a signup or contact block to your page.
@@ -43,7 +43,10 @@ export default async function LeadsPage() {
               </thead>
               <tbody>
                 {rows.map((r) => (
-                  <tr key={r.id} className="border-b align-top">
+                  <tr
+                    key={r.id}
+                    className="border-b align-top transition-colors hover:bg-background/60"
+                  >
                     <td className="py-2 pr-4">{r.kind}</td>
                     <td className="py-2 pr-4">{r.email}</td>
                     <td className="py-2 pr-4">{r.name ?? ""}</td>

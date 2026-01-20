@@ -1,19 +1,20 @@
 import type { Metadata } from "next";
-import { DM_Mono, Epilogue, Fraunces } from "next/font/google";
+import { Fragment_Mono, Instrument_Sans, Unbounded } from "next/font/google";
+import { PixelCloudGrid } from "@/components/brand/pixel-cloud-grid";
 import "./globals.css";
 
-const sundaeSans = Epilogue({
-  variable: "--font-sundae-sans",
+const brandSans = Instrument_Sans({
+  variable: "--font-brand-sans",
   subsets: ["latin"],
 });
 
-const sundaeDisplay = Fraunces({
-  variable: "--font-sundae-display",
+const brandDisplay = Unbounded({
+  variable: "--font-brand-display",
   subsets: ["latin"],
 });
 
-const sundaeMono = DM_Mono({
-  variable: "--font-sundae-mono",
+const brandMono = Fragment_Mono({
+  variable: "--font-brand-mono",
   subsets: ["latin"],
   weight: ["400"],
 });
@@ -32,8 +33,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${sundaeSans.variable} ${sundaeDisplay.variable} ${sundaeMono.variable} antialiased`}
+        className={`${brandSans.variable} ${brandDisplay.variable} ${brandMono.variable} antialiased`}
       >
+        <PixelCloudGrid />
         {children}
       </body>
     </html>

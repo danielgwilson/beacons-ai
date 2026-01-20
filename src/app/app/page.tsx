@@ -38,14 +38,14 @@ export default async function AppHomePage() {
           </p>
         </div>
         <a href={`/${profile.handle}`}>
-          <Button variant="secondary" className="rounded-full">
+          <Button variant="outline" className="rounded-full">
             View public page
           </Button>
         </a>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-3">
-        <Card className="sundae-card p-6">
+        <Card className="p-6 transition-[transform,box-shadow] duration-200 hover:-translate-y-1 hover:shadow-[0_24px_60px_-44px_oklch(0.17_0.02_265/45%)]">
           <div className="text-sm text-muted-foreground">Blocks</div>
           <div className="mt-1 text-3xl font-semibold">{blockCount ?? 0}</div>
           <div className="mt-4 text-sm">
@@ -54,7 +54,7 @@ export default async function AppHomePage() {
             </a>
           </div>
         </Card>
-        <Card className="sundae-card p-6">
+        <Card className="p-6 transition-[transform,box-shadow] duration-200 hover:-translate-y-1 hover:shadow-[0_24px_60px_-44px_oklch(0.17_0.02_265/45%)]">
           <div className="text-sm text-muted-foreground">Views (7d)</div>
           <div className="mt-1 text-3xl font-semibold">{views7d ?? 0}</div>
           <div className="mt-4 text-sm">
@@ -63,7 +63,7 @@ export default async function AppHomePage() {
             </a>
           </div>
         </Card>
-        <Card className="sundae-card p-6">
+        <Card className="p-6 transition-[transform,box-shadow] duration-200 hover:-translate-y-1 hover:shadow-[0_24px_60px_-44px_oklch(0.17_0.02_265/45%)]">
           <div className="text-sm text-muted-foreground">Clicks (7d)</div>
           <div className="mt-1 text-3xl font-semibold">{clicks7d ?? 0}</div>
           <div className="mt-4 text-sm">

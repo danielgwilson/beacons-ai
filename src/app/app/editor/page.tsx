@@ -1,4 +1,5 @@
 import { asc, eq } from "drizzle-orm";
+import { ArrowDown, ArrowUp, Eye, EyeOff, Trash2 } from "lucide-react";
 import { CreatorPage } from "@/components/creator/creator-page";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -53,7 +54,7 @@ export default async function EditorPage() {
             <form action={createBlock.bind(null, "link")}>
               <Button
                 type="submit"
-                variant="secondary"
+                variant="outline"
                 size="sm"
                 className="rounded-full"
               >
@@ -63,7 +64,7 @@ export default async function EditorPage() {
             <form action={createBlock.bind(null, "text")}>
               <Button
                 type="submit"
-                variant="secondary"
+                variant="outline"
                 size="sm"
                 className="rounded-full"
               >
@@ -73,7 +74,7 @@ export default async function EditorPage() {
             <form action={createBlock.bind(null, "image")}>
               <Button
                 type="submit"
-                variant="secondary"
+                variant="outline"
                 size="sm"
                 className="rounded-full"
               >
@@ -83,7 +84,7 @@ export default async function EditorPage() {
             <form action={createBlock.bind(null, "embed")}>
               <Button
                 type="submit"
-                variant="secondary"
+                variant="outline"
                 size="sm"
                 className="rounded-full"
               >
@@ -93,7 +94,7 @@ export default async function EditorPage() {
             <form action={createBlock.bind(null, "social")}>
               <Button
                 type="submit"
-                variant="secondary"
+                variant="outline"
                 size="sm"
                 className="rounded-full"
               >
@@ -103,7 +104,7 @@ export default async function EditorPage() {
             <form action={createBlock.bind(null, "support")}>
               <Button
                 type="submit"
-                variant="secondary"
+                variant="outline"
                 size="sm"
                 className="rounded-full"
               >
@@ -113,7 +114,7 @@ export default async function EditorPage() {
             <form action={createBlock.bind(null, "signup")}>
               <Button
                 type="submit"
-                variant="secondary"
+                variant="outline"
                 size="sm"
                 className="rounded-full"
               >
@@ -123,7 +124,7 @@ export default async function EditorPage() {
             <form action={createBlock.bind(null, "contact")}>
               <Button
                 type="submit"
-                variant="secondary"
+                variant="outline"
                 size="sm"
                 className="rounded-full"
               >
@@ -134,7 +135,7 @@ export default async function EditorPage() {
         </div>
 
         {pageBlocks.length === 0 ? (
-          <Card className="sundae-card p-6">
+          <Card className="p-6">
             <div className="font-medium">No blocks yet</div>
             <div className="mt-1 text-sm text-muted-foreground">
               Add a block above to start building your page.
@@ -152,23 +153,45 @@ export default async function EditorPage() {
                 </div>
                 <div className="flex items-center gap-2">
                   <form action={moveBlock.bind(null, block.id, "up")}>
-                    <Button type="submit" size="sm" variant="secondary">
-                      ↑
+                    <Button
+                      type="submit"
+                      size="icon-sm"
+                      variant="outline"
+                      aria-label="Move block up"
+                    >
+                      <ArrowUp />
                     </Button>
                   </form>
                   <form action={moveBlock.bind(null, block.id, "down")}>
-                    <Button type="submit" size="sm" variant="secondary">
-                      ↓
+                    <Button
+                      type="submit"
+                      size="icon-sm"
+                      variant="outline"
+                      aria-label="Move block down"
+                    >
+                      <ArrowDown />
                     </Button>
                   </form>
                   <form action={toggleBlock.bind(null, block.id)}>
-                    <Button type="submit" size="sm" variant="secondary">
-                      {block.enabled ? "Disable" : "Enable"}
+                    <Button
+                      type="submit"
+                      size="icon-sm"
+                      variant="outline"
+                      aria-label={
+                        block.enabled ? "Disable block" : "Enable block"
+                      }
+                    >
+                      {block.enabled ? <EyeOff /> : <Eye />}
                     </Button>
                   </form>
                   <form action={deleteBlock.bind(null, block.id)}>
-                    <Button type="submit" size="sm" variant="destructive">
-                      Delete
+                    <Button
+                      type="submit"
+                      size="icon-sm"
+                      variant="destructive"
+                      aria-label="Delete block"
+                    >
+                      <Trash2 />
                     </Button>
                   </form>
                 </div>
@@ -176,7 +199,10 @@ export default async function EditorPage() {
             );
 
             return (
-              <Card key={block.id} className="sundae-card p-6">
+              <Card
+                key={block.id}
+                className="p-6 transition-[transform,box-shadow] duration-200 hover:-translate-y-1 hover:shadow-[0_24px_60px_-44px_oklch(0.17_0.02_265/45%)]"
+              >
                 {header}
 
                 <form
@@ -430,7 +456,7 @@ export default async function EditorPage() {
         </div>
       </div>
 
-      <div className="sticky top-6 h-fit overflow-hidden rounded-2xl border">
+      <div className="brand-screen sticky top-24 h-fit overflow-hidden">
         <CreatorPage
           showPreviewBadge
           profile={{

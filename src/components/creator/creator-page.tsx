@@ -1,4 +1,5 @@
 import {
+  ArrowUpRight,
   Instagram,
   Link as LinkIcon,
   Mail,
@@ -11,7 +12,6 @@ import {
 import Image from "next/image";
 import React from "react";
 import { CreatorAnalyticsBeacon } from "@/components/creator/analytics-beacon";
-import { Badge } from "@/components/ui/badge";
 import type { BlockType } from "@/lib/blocks";
 import { type CreatorTheme, themeToStyle } from "@/lib/theme";
 import { cn } from "@/lib/utils";
@@ -90,7 +90,13 @@ function BlockShell({
   return (
     <div
       className={cn(
-        "rounded-3xl border border-black/10 bg-[var(--creator-card)] px-4 py-3 shadow-[0_18px_60px_-40px_rgba(0,0,0,0.35)] backdrop-blur",
+        [
+          "group relative overflow-hidden rounded-3xl",
+          "border border-[color-mix(in_oklab,var(--creator-text)_14%,transparent)]",
+          "bg-[var(--creator-card)] px-4 py-3",
+          "shadow-[0_22px_56px_-44px_color-mix(in_oklab,var(--creator-text)_35%,transparent)]",
+          "backdrop-blur",
+        ].join(" "),
         className,
       )}
     >
@@ -110,17 +116,24 @@ function LinkBlock({ blockId, data }: { blockId: string; data: unknown }) {
     <a
       href={href}
       className={cn(
-        "group relative block overflow-hidden rounded-3xl border border-black/10 bg-[var(--creator-card)] px-4 py-3 shadow-[0_18px_60px_-40px_rgba(0,0,0,0.35)] backdrop-blur transition",
-        "hover:-translate-y-0.5 hover:shadow-[0_28px_70px_-40px_rgba(0,0,0,0.45)] active:translate-y-0",
+        [
+          "group relative block overflow-hidden rounded-3xl px-4 py-3 backdrop-blur",
+          "border border-[color-mix(in_oklab,var(--creator-text)_14%,transparent)]",
+          "bg-[var(--creator-card)]",
+          "shadow-[0_22px_56px_-44px_color-mix(in_oklab,var(--creator-text)_35%,transparent)]",
+          "transition-[transform,box-shadow,background-color] duration-200",
+          "hover:-translate-y-0.5 hover:shadow-[0_30px_72px_-50px_color-mix(in_oklab,var(--creator-text)_55%,transparent)]",
+          "active:translate-y-0",
+        ].join(" "),
       )}
     >
-      <div className="absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-100">
-        <div className="absolute -left-20 -top-16 h-48 w-48 rounded-full bg-[var(--creator-accent)]/20 blur-2xl" />
-        <div className="absolute -bottom-24 -right-24 h-56 w-56 rounded-full bg-[var(--creator-btn-bg)]/25 blur-3xl" />
+      <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+        <div className="absolute -left-24 -top-20 h-52 w-52 rounded-full bg-[var(--creator-accent)]/22 blur-3xl" />
+        <div className="absolute -bottom-28 -right-28 h-64 w-64 rounded-full bg-[var(--creator-btn-bg)]/22 blur-3xl" />
       </div>
-      <div className="flex items-center justify-between gap-3">
+      <div className="relative flex items-center justify-between gap-3">
         <div className="min-w-0">
-          <div className="truncate font-semibold tracking-tight">
+          <div className="truncate font-semibold tracking-tight text-[var(--creator-text)]">
             {title || "Link"}
           </div>
           {subtitle ? (
@@ -129,12 +142,9 @@ function LinkBlock({ blockId, data }: { blockId: string; data: unknown }) {
             </div>
           ) : null}
         </div>
-        <Badge
-          variant="secondary"
-          className="shrink-0 rounded-full bg-background/70"
-        >
-          Open
-        </Badge>
+        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-2xl border border-[color-mix(in_oklab,var(--creator-text)_14%,transparent)] bg-[color-mix(in_oklab,var(--creator-card)_80%,transparent)] text-[var(--creator-text)] shadow-sm transition-transform duration-200 group-hover:-translate-y-0.5">
+          <ArrowUpRight className="h-4 w-4" />
+        </span>
       </div>
       <div className="sr-only">{url}</div>
     </a>
@@ -154,17 +164,24 @@ function DirectLinkBlock({ data }: { data: unknown }) {
       target="_blank"
       rel="noreferrer"
       className={cn(
-        "group relative block overflow-hidden rounded-3xl border border-black/10 bg-[var(--creator-card)] px-4 py-3 shadow-[0_18px_60px_-40px_rgba(0,0,0,0.35)] backdrop-blur transition",
-        "hover:-translate-y-0.5 hover:shadow-[0_28px_70px_-40px_rgba(0,0,0,0.45)] active:translate-y-0",
+        [
+          "group relative block overflow-hidden rounded-3xl px-4 py-3 backdrop-blur",
+          "border border-[color-mix(in_oklab,var(--creator-text)_14%,transparent)]",
+          "bg-[var(--creator-card)]",
+          "shadow-[0_22px_56px_-44px_color-mix(in_oklab,var(--creator-text)_35%,transparent)]",
+          "transition-[transform,box-shadow,background-color] duration-200",
+          "hover:-translate-y-0.5 hover:shadow-[0_30px_72px_-50px_color-mix(in_oklab,var(--creator-text)_55%,transparent)]",
+          "active:translate-y-0",
+        ].join(" "),
       )}
     >
-      <div className="absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-100">
-        <div className="absolute -left-20 -top-16 h-48 w-48 rounded-full bg-[var(--creator-accent)]/20 blur-2xl" />
-        <div className="absolute -bottom-24 -right-24 h-56 w-56 rounded-full bg-[var(--creator-btn-bg)]/25 blur-3xl" />
+      <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+        <div className="absolute -left-24 -top-20 h-52 w-52 rounded-full bg-[var(--creator-accent)]/22 blur-3xl" />
+        <div className="absolute -bottom-28 -right-28 h-64 w-64 rounded-full bg-[var(--creator-btn-bg)]/22 blur-3xl" />
       </div>
-      <div className="flex items-center justify-between gap-3">
+      <div className="relative flex items-center justify-between gap-3">
         <div className="min-w-0">
-          <div className="truncate font-semibold tracking-tight">
+          <div className="truncate font-semibold tracking-tight text-[var(--creator-text)]">
             {title || "Link"}
           </div>
           {subtitle ? (
@@ -173,12 +190,9 @@ function DirectLinkBlock({ data }: { data: unknown }) {
             </div>
           ) : null}
         </div>
-        <Badge
-          variant="secondary"
-          className="shrink-0 rounded-full bg-background/70"
-        >
-          Open
-        </Badge>
+        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-2xl border border-[color-mix(in_oklab,var(--creator-text)_14%,transparent)] bg-[color-mix(in_oklab,var(--creator-card)_80%,transparent)] text-[var(--creator-text)] shadow-sm transition-transform duration-200 group-hover:-translate-y-0.5">
+          <ArrowUpRight className="h-4 w-4" />
+        </span>
       </div>
       <div className="sr-only">{url}</div>
     </a>
@@ -214,7 +228,7 @@ function ImageBlock({ data }: { data: unknown }) {
   const href = safeString(obj.href);
 
   const image = (
-    <div className="overflow-hidden rounded-xl border bg-[var(--creator-card)] shadow-sm">
+    <div className="overflow-hidden rounded-3xl border border-[color-mix(in_oklab,var(--creator-text)_14%,transparent)] bg-[var(--creator-card)] shadow-[0_22px_56px_-44px_color-mix(in_oklab,var(--creator-text)_35%,transparent)]">
       <div className="relative aspect-[16/10] w-full">
         <Image src={url} alt={alt} fill className="object-cover" />
       </div>
@@ -250,7 +264,7 @@ function EmbedBlock({ data }: { data: unknown }) {
   }
 
   return (
-    <div className="overflow-hidden rounded-xl border bg-[var(--creator-card)] shadow-sm">
+    <div className="overflow-hidden rounded-3xl border border-[color-mix(in_oklab,var(--creator-text)_14%,transparent)] bg-[var(--creator-card)] shadow-[0_22px_56px_-44px_color-mix(in_oklab,var(--creator-text)_35%,transparent)]">
       <div className="relative aspect-video">
         <iframe
           className="absolute inset-0 h-full w-full"
@@ -286,9 +300,9 @@ function SocialBlock({ data }: { data: unknown }) {
           href={l.url}
           target="_blank"
           rel="noreferrer"
-          className="group inline-flex items-center gap-2 rounded-full border border-black/10 bg-background/60 px-3 py-2 text-sm shadow-sm backdrop-blur transition hover:bg-background/80"
+          className="group inline-flex items-center gap-2 rounded-full border border-[color-mix(in_oklab,var(--creator-text)_14%,transparent)] bg-[color-mix(in_oklab,var(--creator-card)_70%,transparent)] px-3 py-2 text-sm shadow-sm backdrop-blur transition-[transform,background-color] duration-200 hover:-translate-y-0.5 hover:bg-[color-mix(in_oklab,var(--creator-card)_85%,transparent)]"
         >
-          <span className="grid h-8 w-8 place-items-center rounded-full bg-[var(--creator-accent)]/15 text-[var(--creator-text)]">
+          <span className="grid h-8 w-8 place-items-center rounded-full bg-[var(--creator-accent)]/16 text-[var(--creator-text)] shadow-[inset_0_1px_0_color-mix(in_oklab,var(--creator-text)_18%,transparent)]">
             <SocialIcon platform={l.platform} />
           </span>
           <span className="capitalize text-[var(--creator-text)]">
@@ -311,7 +325,7 @@ function SupportBlock({ data }: { data: unknown }) {
       href={url}
       target="_blank"
       rel="noreferrer"
-      className="block rounded-xl bg-[var(--creator-btn-bg)] px-4 py-3 text-center font-medium text-[var(--creator-btn-text)] shadow-sm hover:opacity-95"
+      className="block rounded-3xl bg-[var(--creator-btn-bg)] px-4 py-3 text-center font-semibold tracking-tight text-[var(--creator-btn-text)] shadow-[0_22px_56px_-44px_color-mix(in_oklab,var(--creator-btn-bg)_55%,transparent)] transition-[transform,box-shadow,filter] duration-200 hover:-translate-y-0.5 hover:shadow-[0_30px_72px_-50px_color-mix(in_oklab,var(--creator-btn-bg)_65%,transparent)] active:translate-y-0"
     >
       {title}
     </a>
@@ -356,11 +370,11 @@ function SignupBlock({
           type="email"
           placeholder="you@email.com"
           required
-          className="h-11 rounded-2xl border border-black/10 bg-background/75 px-4 text-sm text-[var(--creator-text)] outline-none placeholder:text-[var(--creator-muted)] focus:border-black/20 focus:ring-4 focus:ring-[var(--creator-accent)]/15"
+          className="h-11 rounded-2xl border border-[color-mix(in_oklab,var(--creator-text)_14%,transparent)] bg-[color-mix(in_oklab,var(--creator-card)_70%,transparent)] px-4 text-sm text-[var(--creator-text)] outline-none placeholder:text-[var(--creator-muted)] shadow-[inset_0_1px_0_color-mix(in_oklab,var(--creator-text)_18%,transparent)] transition-[border-color,box-shadow,background-color] duration-200 focus:bg-[color-mix(in_oklab,var(--creator-card)_82%,transparent)] focus:ring-4 focus:ring-[var(--creator-accent)]/15"
         />
         <button
           type="submit"
-          className="h-11 w-full rounded-2xl bg-[var(--creator-btn-bg)] px-4 text-sm font-semibold text-[var(--creator-btn-text)] shadow-sm transition hover:opacity-95"
+          className="h-11 w-full rounded-2xl bg-[var(--creator-btn-bg)] px-4 text-sm font-semibold text-[var(--creator-btn-text)] shadow-[0_18px_46px_-36px_color-mix(in_oklab,var(--creator-btn-bg)_55%,transparent)] transition-[transform,box-shadow,filter] duration-200 hover:-translate-y-0.5 hover:shadow-[0_26px_64px_-46px_color-mix(in_oklab,var(--creator-btn-bg)_65%,transparent)] active:translate-y-0"
         >
           Subscribe
         </button>
@@ -405,25 +419,25 @@ function ContactBlock({
         <input
           name="name"
           placeholder="Name"
-          className="h-11 rounded-2xl border border-black/10 bg-background/75 px-4 text-sm text-[var(--creator-text)] outline-none placeholder:text-[var(--creator-muted)] focus:border-black/20 focus:ring-4 focus:ring-[var(--creator-accent)]/15"
+          className="h-11 rounded-2xl border border-[color-mix(in_oklab,var(--creator-text)_14%,transparent)] bg-[color-mix(in_oklab,var(--creator-card)_70%,transparent)] px-4 text-sm text-[var(--creator-text)] outline-none placeholder:text-[var(--creator-muted)] shadow-[inset_0_1px_0_color-mix(in_oklab,var(--creator-text)_18%,transparent)] transition-[border-color,box-shadow,background-color] duration-200 focus:bg-[color-mix(in_oklab,var(--creator-card)_82%,transparent)] focus:ring-4 focus:ring-[var(--creator-accent)]/15"
         />
         <input
           name="email"
           type="email"
           placeholder="Email"
           required
-          className="h-11 rounded-2xl border border-black/10 bg-background/75 px-4 text-sm text-[var(--creator-text)] outline-none placeholder:text-[var(--creator-muted)] focus:border-black/20 focus:ring-4 focus:ring-[var(--creator-accent)]/15"
+          className="h-11 rounded-2xl border border-[color-mix(in_oklab,var(--creator-text)_14%,transparent)] bg-[color-mix(in_oklab,var(--creator-card)_70%,transparent)] px-4 text-sm text-[var(--creator-text)] outline-none placeholder:text-[var(--creator-muted)] shadow-[inset_0_1px_0_color-mix(in_oklab,var(--creator-text)_18%,transparent)] transition-[border-color,box-shadow,background-color] duration-200 focus:bg-[color-mix(in_oklab,var(--creator-card)_82%,transparent)] focus:ring-4 focus:ring-[var(--creator-accent)]/15"
         />
         <textarea
           name="message"
           placeholder="Message"
           required
           rows={4}
-          className="min-h-[110px] resize-none rounded-2xl border border-black/10 bg-background/75 px-4 py-3 text-sm text-[var(--creator-text)] outline-none placeholder:text-[var(--creator-muted)] focus:border-black/20 focus:ring-4 focus:ring-[var(--creator-accent)]/15"
+          className="min-h-[120px] resize-none rounded-2xl border border-[color-mix(in_oklab,var(--creator-text)_14%,transparent)] bg-[color-mix(in_oklab,var(--creator-card)_70%,transparent)] px-4 py-3 text-sm text-[var(--creator-text)] outline-none placeholder:text-[var(--creator-muted)] shadow-[inset_0_1px_0_color-mix(in_oklab,var(--creator-text)_18%,transparent)] transition-[border-color,box-shadow,background-color] duration-200 focus:bg-[color-mix(in_oklab,var(--creator-card)_82%,transparent)] focus:ring-4 focus:ring-[var(--creator-accent)]/15"
         />
         <button
           type="submit"
-          className="h-11 w-full rounded-2xl bg-[var(--creator-btn-bg)] px-4 text-sm font-semibold text-[var(--creator-btn-text)] shadow-sm transition hover:opacity-95"
+          className="h-11 w-full rounded-2xl bg-[var(--creator-btn-bg)] px-4 text-sm font-semibold text-[var(--creator-btn-text)] shadow-[0_18px_46px_-36px_color-mix(in_oklab,var(--creator-btn-bg)_55%,transparent)] transition-[transform,box-shadow,filter] duration-200 hover:-translate-y-0.5 hover:shadow-[0_26px_64px_-46px_color-mix(in_oklab,var(--creator-btn-bg)_65%,transparent)] active:translate-y-0"
         >
           Send
         </button>
@@ -487,19 +501,22 @@ export function CreatorPage({
       style={themeToStyle(profile.theme)}
       data-handle={profile.handle}
     >
-      <div
-        className="min-h-screen px-5 py-10 text-[var(--creator-text)]"
-        style={{ background: "var(--creator-bg)" }}
-      >
+      <div className="relative min-h-screen px-5 py-10 text-[var(--creator-text)]">
+        <div
+          className="absolute inset-0 -z-10"
+          style={{ background: "var(--creator-bg)" }}
+        />
+        <div className="absolute inset-0 -z-10 creator-grid opacity-[0.22]" />
+
         <div className="mx-auto w-full max-w-md space-y-6">
           <header className="flex flex-col items-center text-center">
             {showBadge ? (
-              <div className="mb-3 inline-flex items-center rounded-full border bg-[var(--creator-card)] px-3 py-1 text-xs text-[var(--creator-muted)]">
+              <div className="mb-3 inline-flex items-center rounded-full border border-[color-mix(in_oklab,var(--creator-text)_14%,transparent)] bg-[color-mix(in_oklab,var(--creator-card)_80%,transparent)] px-3 py-1 text-xs text-[var(--creator-muted)] shadow-sm backdrop-blur">
                 Preview
               </div>
             ) : null}
             {profile.avatarUrl ? (
-              <div className="relative h-20 w-20 overflow-hidden rounded-full border border-black/10 bg-[var(--creator-card)] shadow-sm">
+              <div className="relative h-20 w-20 overflow-hidden rounded-full border border-[color-mix(in_oklab,var(--creator-text)_14%,transparent)] bg-[var(--creator-card)] shadow-[0_18px_46px_-36px_color-mix(in_oklab,var(--creator-text)_35%,transparent)]">
                 <Image
                   src={profile.avatarUrl}
                   alt={profile.displayName}
@@ -517,7 +534,7 @@ export function CreatorPage({
               </p>
             ) : null}
             <div className="mt-3 flex items-center gap-2 text-xs text-[var(--creator-muted)]">
-              <span className="rounded-full border border-black/10 bg-background/60 px-3 py-1 backdrop-blur">
+              <span className="rounded-full border border-[color-mix(in_oklab,var(--creator-text)_14%,transparent)] bg-[color-mix(in_oklab,var(--creator-card)_72%,transparent)] px-3 py-1 shadow-sm backdrop-blur">
                 @{profile.handle}
               </span>
             </div>
