@@ -12,8 +12,8 @@ export default function SignInPage() {
   );
 
   return (
-    <div className="min-h-screen">
-      <main className="mx-auto grid min-h-screen max-w-5xl items-center gap-8 px-6 py-12 lg:grid-cols-2">
+    <div className="min-h-[100svh]">
+      <main className="mx-auto grid min-h-[100svh] max-w-5xl items-start gap-8 px-6 py-10 lg:min-h-screen lg:items-center lg:py-12 lg:grid-cols-2">
         <aside className="order-2 lg:order-1">
           <Card className="brand-card p-7 sm:p-8">
             <div className="flex items-start justify-between gap-4">

@@ -9,7 +9,6 @@ type Dot = {
   r: number;
   baseAlpha: number;
   color: string;
-  bloom: number;
   seed: number;
 };
 
@@ -89,9 +88,19 @@ function toRgb(color: string, probe: HTMLElement) {
   return computed || "rgb(160,255,180)";
 }
 
-export function PixelCloudGrid({ className }: { className?: string }) {
+function lumaFromRgbString(rgb: string) {
+  const m = rgb.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/i);
+  if (!m) return 1;
+  const r = Number(m[1] ?? 255) / 255;
+  const g = Number(m[2] ?? 255) / 255;
+  const b = Number(m[3] ?? 255) / 255;
+  // sRGB relative luminance approximation
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
+export function CreatorNoiseField({ className }: { className?: string }) {
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
-  const grainId = `grain-${React.useId().replaceAll(":", "")}`;
+  const grainId = `creator-grain-${React.useId().replaceAll(":", "")}`;
   const [reduceMotionPref, setReduceMotionPref] = React.useState(false);
 
   React.useEffect(() => {
@@ -104,7 +113,10 @@ export function PixelCloudGrid({ className }: { className?: string }) {
     const canvasEl: HTMLCanvasElement = canvas;
     const ctx2d: CanvasRenderingContext2D = ctx;
 
-    const root = document.documentElement;
+    const host =
+      (canvasEl.closest("[data-handle]") as HTMLElement | null) ??
+      document.documentElement;
+
     const motionMq = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     const probe = document.createElement("span");
@@ -120,28 +132,37 @@ export function PixelCloudGrid({ className }: { className?: string }) {
     let reducedMotion = motionMq.matches;
     setReduceMotionPref(reducedMotion);
 
-    const seedBase = 713_071;
+    const seedBase = 930_117;
 
     function buildDots() {
       dpr = Math.min(2, window.devicePixelRatio || 1);
-      const w = window.innerWidth;
-      const h = window.innerHeight;
+      const rect = canvasEl.getBoundingClientRect();
+      const w = Math.max(1, Math.floor(rect.width));
+      const h = Math.max(1, Math.floor(rect.height));
 
       canvasEl.width = Math.max(1, Math.floor(w * dpr));
       canvasEl.height = Math.max(1, Math.floor(h * dpr));
-      canvasEl.style.width = `${w}px`;
-      canvasEl.style.height = `${h}px`;
 
-      const isDark = root.classList.contains("dark");
-      const palette = [
-        toRgb(cssVar(root, "--pixel-cloud-a", "rgba(160,255,180,0.18)"), probe),
-        toRgb(cssVar(root, "--pixel-cloud-b", "rgba(160,220,255,0.16)"), probe),
-        toRgb(cssVar(root, "--pixel-cloud-c", "rgba(255,160,240,0.12)"), probe),
-      ];
+      const accent = toRgb(
+        cssVar(host, "--creator-accent", "oklch(0.88 0.23 145 / 1)"),
+        probe,
+      );
+      const btn = toRgb(
+        cssVar(host, "--creator-btn-bg", "oklch(0.86 0.18 145 / 1)"),
+        probe,
+      );
+      const text = toRgb(cssVar(host, "--creator-text", "#111111"), probe);
+      const bg = toRgb(cssVar(host, "--creator-bg", "#ffffff"), probe);
+
+      const isDark = lumaFromRgbString(bg) < 0.45;
+
+      const palette = isDark
+        ? [accent, btn, "rgb(240,240,240)"]
+        : [accent, btn, text];
 
       const area = w * h;
-      const target = Math.round(Math.min(3400, Math.max(1100, area / 1150)));
-      const cell = Math.max(18, Math.min(34, Math.sqrt(area / target)));
+      const target = Math.round(Math.min(2400, Math.max(900, area / 1350)));
+      const cell = Math.max(18, Math.min(32, Math.sqrt(area / target)));
 
       const xCells = Math.max(1, Math.floor(w / cell));
       const yCells = Math.max(1, Math.floor(h / cell));
@@ -149,40 +170,34 @@ export function PixelCloudGrid({ className }: { className?: string }) {
       const next: Dot[] = [];
       let i = 0;
 
-      // Structured “fields” driven by a calm FBM (no vectors, no drifting dots).
       for (let cy = 0; cy <= yCells; cy += 1) {
         for (let cx = 0; cx <= xCells; cx += 1) {
           const seed = seedBase + cx * 9176 + cy * 13849;
-          const jx = (rand01(seed + 1) - 0.5) * cell * 0.92;
-          const jy = (rand01(seed + 2) - 0.5) * cell * 0.92;
+          const jx = (rand01(seed + 1) - 0.5) * cell * 0.9;
+          const jy = (rand01(seed + 2) - 0.5) * cell * 0.9;
           const x = cx * cell + jx;
           const y = cy * cell + jy;
 
-          // Radial mask keeps texture focused on hero/top, fades out edges.
-          const mx = x / Math.max(1, w) - 0.52;
-          const my = y / Math.max(1, h) - 0.22;
-          const d = Math.sqrt(mx * mx * 1.15 + my * my * 1.65);
-          const mask = 1 - smoothstep(0.25, 0.95, d);
+          const mx = x / Math.max(1, w) - 0.5;
+          const my = y / Math.max(1, h) - 0.1;
+          const d = Math.sqrt(mx * mx * 1.1 + my * my * 1.8);
+          const mask = 1 - smoothstep(0.24, 0.98, d);
           if (mask <= 0) continue;
 
-          const field = fbm2D(x * 0.0024, y * 0.0024, seedBase + 31, 4);
-          const density = smoothstep(0.38, 0.78, field) * mask;
+          const field = fbm2D(x * 0.0026, y * 0.0026, seedBase + 7, 4);
+          const density = smoothstep(0.36, 0.8, field) * mask;
 
-          // Deterministic “keep” test -> controlled stipple, not uniform static.
           const keep = rand01(seed + 3);
           if (keep > density * 0.92) continue;
 
-          const r = (0.72 + rand01(seed + 4) * 1.35) * (w < 520 ? 1.05 : 1);
-          const baseAlpha =
-            (0.028 + density * (isDark ? 0.11 : 0.085)) *
-            (0.7 + rand01(seed + 5) * 0.75);
-          const bloom = rand01(seed + 6) < 0.09 ? 0.55 + rand01(seed + 7) : 0;
+          const r = 0.7 + rand01(seed + 4) * 1.15;
+          const baseAlpha = (0.03 + density * 0.11) * (0.7 + rand01(seed + 5));
           const color =
             palette[i % Math.max(1, palette.length)] ??
             palette[0] ??
             "rgb(160,255,180)";
 
-          next.push({ x, y, r, baseAlpha, color, bloom, seed });
+          next.push({ x, y, r, baseAlpha, color, seed });
           i += 1;
         }
       }
@@ -191,30 +206,30 @@ export function PixelCloudGrid({ className }: { className?: string }) {
     }
 
     function draw(t: number) {
-      // Throttle: calm, near-static motion (no obvious vectors).
       if (t - lastDraw < 33) {
         if (!reducedMotion) raf = window.requestAnimationFrame(draw);
         return;
       }
       lastDraw = t;
 
-      const w = canvasEl.width / dpr;
-      const h = canvasEl.height / dpr;
+      const rect = canvasEl.getBoundingClientRect();
+      const w = Math.max(1, rect.width);
+      const h = Math.max(1, rect.height);
       const time = t / 1000;
 
       ctx2d.clearRect(0, 0, canvasEl.width, canvasEl.height);
       ctx2d.save();
       ctx2d.scale(dpr, dpr);
 
-      const isDark = root.classList.contains("dark");
+      const bg = toRgb(cssVar(host, "--creator-bg", "#ffffff"), probe);
+      const isDark = lumaFromRgbString(bg) < 0.45;
       ctx2d.globalCompositeOperation = isDark ? "screen" : "multiply";
 
-      // A calm stipple field: static points, barely shifting opacity (no vectors).
       for (const d of dots) {
         const drift =
           fbm2D(
-            d.x * 0.0105 + time * 0.05,
-            d.y * 0.0105 - time * 0.038,
+            d.x * 0.0102 + time * 0.06,
+            d.y * 0.0102 - time * 0.045,
             seedBase + d.seed,
             3,
           ) *
@@ -222,20 +237,11 @@ export function PixelCloudGrid({ className }: { className?: string }) {
           1;
 
         const phase = (d.seed % 97) / 97;
-        const slowPulse = Math.sin(time * 0.55 + phase * Math.PI * 2);
+        const slowPulse = Math.sin(time * 0.62 + phase * Math.PI * 2);
         const alpha = clamp01(
-          d.baseAlpha * (1 + drift * 0.14 + slowPulse * 0.045),
+          d.baseAlpha * (1 + drift * 0.16 + slowPulse * 0.05),
         );
         if (alpha <= 0.002) continue;
-
-        // Rare micro-bloom adds depth without looking like “clouds”.
-        if (d.bloom > 0) {
-          ctx2d.beginPath();
-          ctx2d.fillStyle = d.color;
-          ctx2d.globalAlpha = alpha * 0.22 * d.bloom;
-          ctx2d.arc(d.x, d.y, d.r * (2.25 + d.bloom), 0, Math.PI * 2);
-          ctx2d.fill();
-        }
 
         ctx2d.beginPath();
         ctx2d.fillStyle = d.color;
@@ -244,12 +250,11 @@ export function PixelCloudGrid({ className }: { className?: string }) {
         ctx2d.fill();
       }
 
-      // Gentle “lift” on the very top band (keeps it feeling expensive).
       const grad = ctx2d.createLinearGradient(0, 0, 0, h);
-      grad.addColorStop(0, "rgba(255,255,255,0.22)");
-      grad.addColorStop(0.38, "rgba(255,255,255,0)");
+      grad.addColorStop(0, "rgba(255,255,255,0.18)");
+      grad.addColorStop(0.44, "rgba(255,255,255,0)");
       ctx2d.globalCompositeOperation = isDark ? "screen" : "multiply";
-      ctx2d.globalAlpha = isDark ? 0.22 : 0.14;
+      ctx2d.globalAlpha = isDark ? 0.2 : 0.12;
       ctx2d.fillStyle = grad;
       ctx2d.fillRect(0, 0, w, h);
 
@@ -271,11 +276,6 @@ export function PixelCloudGrid({ className }: { className?: string }) {
       if (!reducedMotion) raf = window.requestAnimationFrame(draw);
     };
 
-    const onThemeChange = () => {
-      buildDots();
-      draw(performance.now());
-    };
-
     buildDots();
     draw(performance.now());
     if (!reducedMotion) raf = window.requestAnimationFrame(draw);
@@ -283,17 +283,14 @@ export function PixelCloudGrid({ className }: { className?: string }) {
     window.addEventListener("resize", onResize, { passive: true });
     motionMq.addEventListener("change", onMotionChange);
 
-    const obs = new MutationObserver(onThemeChange);
-    obs.observe(root, {
-      attributes: true,
-      attributeFilter: ["class", "style"],
-    });
+    const ro = new ResizeObserver(onResize);
+    ro.observe(canvasEl);
 
     return () => {
       window.cancelAnimationFrame(raf);
       window.removeEventListener("resize", onResize);
       motionMq.removeEventListener("change", onMotionChange);
-      obs.disconnect();
+      ro.disconnect();
       probe.remove();
     };
   }, []);
@@ -301,47 +298,31 @@ export function PixelCloudGrid({ className }: { className?: string }) {
   return (
     <div
       aria-hidden="true"
-      className={cn(
-        "pointer-events-none fixed inset-0 -z-10 overflow-hidden",
-        className,
-      )}
+      className={cn("pointer-events-none absolute inset-0", className)}
     >
-      <div className="absolute inset-0 bg-background" />
-
-      {/* Soft brand wash (kept subtle; the texture is the point). */}
-      <div className="absolute inset-0 opacity-[0.45] [mask-image:radial-gradient(55%_55%_at_50%_10%,#000_22%,transparent_78%)]">
-        <div className="absolute -left-44 -top-48 h-[560px] w-[560px] rounded-full bg-[oklch(0.88_0.23_145/9%)] blur-3xl" />
-        <div className="absolute -right-56 -top-52 h-[620px] w-[620px] rounded-full bg-[oklch(0.9_0.08_225/8%)] blur-3xl" />
-        <div className="absolute -top-40 left-1/2 h-[560px] w-[560px] -translate-x-1/2 rounded-full bg-[oklch(0.67_0.21_330/7%)] blur-3xl" />
-      </div>
-
-      {/* Very subtle structure grid for “technical calm”. */}
-      <div className="absolute inset-0 pixel-grid opacity-[0.18] dark:opacity-[0.14]" />
-
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 h-full w-full opacity-[0.88] mix-blend-multiply dark:mix-blend-screen"
+        className="absolute inset-0 h-full w-full opacity-[0.82] mix-blend-multiply dark:mix-blend-screen"
       />
 
-      {/* Algorithmic grain: subtle, non-tiled texture (SVG turbulence). */}
       <svg
-        className="absolute inset-0 h-full w-full opacity-[0.08] mix-blend-multiply dark:opacity-[0.07] dark:mix-blend-screen"
+        className="absolute inset-0 h-full w-full opacity-[0.07] mix-blend-multiply dark:opacity-[0.06] dark:mix-blend-screen"
         preserveAspectRatio="none"
         aria-hidden="true"
       >
         <filter id={grainId} x="0" y="0" width="100%" height="100%">
           <feTurbulence
             type="fractalNoise"
-            baseFrequency="0.9"
+            baseFrequency="0.85"
             numOctaves={2}
-            seed={8}
+            seed={6}
             stitchTiles="stitch"
           >
             {!reduceMotionPref ? (
               <animate
                 attributeName="baseFrequency"
-                dur="14s"
-                values="0.84;0.96;0.84"
+                dur="16s"
+                values="0.8;0.9;0.8"
                 repeatCount="indefinite"
               />
             ) : null}

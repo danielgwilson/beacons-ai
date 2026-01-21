@@ -12,6 +12,7 @@ import {
 import Image from "next/image";
 import React from "react";
 import { CreatorAnalyticsBeacon } from "@/components/creator/analytics-beacon";
+import { CreatorNoiseField } from "@/components/creator/creator-noise-field";
 import type { BlockType } from "@/lib/blocks";
 import { type CreatorTheme, themeToStyle } from "@/lib/theme";
 import { cn } from "@/lib/utils";
@@ -483,6 +484,7 @@ export function CreatorPage({
   showPreviewBadge,
   hidePreviewBadge,
   disableAnalytics,
+  embed,
   linkMode = "tracked",
 }: {
   profile: Profile;
@@ -490,6 +492,7 @@ export function CreatorPage({
   showPreviewBadge?: boolean;
   hidePreviewBadge?: boolean;
   disableAnalytics?: boolean;
+  embed?: boolean;
   linkMode?: "tracked" | "direct";
 }) {
   const showBadge = Boolean(showPreviewBadge && !hidePreviewBadge);
@@ -497,15 +500,21 @@ export function CreatorPage({
 
   return (
     <div
-      className="min-h-screen"
+      className={cn(!embed && "min-h-screen")}
       style={themeToStyle(profile.theme)}
       data-handle={profile.handle}
     >
-      <div className="relative min-h-screen px-5 py-10 text-[var(--creator-text)]">
+      <div
+        className={cn(
+          "relative px-5 py-10 text-[var(--creator-text)]",
+          embed ? "min-h-full" : "min-h-screen",
+        )}
+      >
         <div
-          className="absolute inset-0 -z-10"
+          className="absolute inset-0 -z-20"
           style={{ background: "var(--creator-bg)" }}
         />
+        <CreatorNoiseField className="-z-10" />
         <div className="absolute inset-0 -z-10 creator-grid opacity-[0.22]" />
 
         <div className="mx-auto w-full max-w-md space-y-6">
