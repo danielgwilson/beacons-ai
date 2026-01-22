@@ -1,5 +1,7 @@
+import type { CSSProperties } from "react";
 import { auth } from "@/auth";
 import { BrandMark } from "@/components/brand/brand-mark";
+import { HalftoneDotGradient } from "@/components/brand/halftone-dot-gradient";
 import { CreatorPage } from "@/components/creator/creator-page";
 import { Button } from "@/components/ui/button";
 import { DEMO_BLOCKS, DEMO_PROFILE } from "@/lib/demo";
@@ -52,7 +54,13 @@ export default async function Home() {
       </header>
 
       <main className="mx-auto max-w-6xl px-6 pb-24 pt-12">
-        <section className="grid items-start gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+        <section className="relative isolate grid items-start gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+          <HalftoneDotGradient
+            variant="hero"
+            className="absolute -inset-x-24 -top-28 h-[680px]"
+            style={{ "--halftone-opacity": "0.26" } as CSSProperties}
+          />
+
           <div className="max-w-xl space-y-7">
             <div className="brand-chip w-fit motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-2 motion-safe:duration-700">
               <span className="brand-mono text-[10px] uppercase tracking-[0.22em] text-foreground/70">

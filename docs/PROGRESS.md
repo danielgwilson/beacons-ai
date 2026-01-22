@@ -5,6 +5,7 @@
 - Creator-only v1 implemented (public pages, editor, analytics, leads, settings)
 - DB schema + initial migration generated via Drizzle
 - UI/brand redesign: new visual system + pixel-cloud grid backdrop across marketing + app + creator pages
+- Brand motion: animated halftone dot-matrix gradient layer (subtle sitewide, prominent on landing hero)
 
 ## Next
 

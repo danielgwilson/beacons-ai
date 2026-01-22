@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { HalftoneDotGradient } from "@/components/brand/halftone-dot-gradient";
 import { cn } from "@/lib/utils";
 
 type Dot = {
@@ -314,6 +315,10 @@ export function PixelCloudGrid({ className }: { className?: string }) {
         <div className="absolute -right-56 -top-52 h-[620px] w-[620px] rounded-full bg-[oklch(0.9_0.08_225/8%)] blur-3xl" />
         <div className="absolute -top-40 left-1/2 h-[560px] w-[560px] -translate-x-1/2 rounded-full bg-[oklch(0.67_0.21_330/7%)] blur-3xl" />
       </div>
+
+      <HalftoneDotGradient
+        style={{ "--halftone-opacity": "0.105" } as React.CSSProperties}
+      />
 
       {/* Very subtle structure grid for “technical calm”. */}
       <div className="absolute inset-0 pixel-grid opacity-[0.18] dark:opacity-[0.14]" />

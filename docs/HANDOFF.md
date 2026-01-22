@@ -10,6 +10,7 @@
 - UI/brand refresh (Jan 20, 2026):
   - New font stack + tokenized palette/elevation in `src/app/globals.css`
   - Pixel-cloud + grid animated backdrop (`src/components/brand/pixel-cloud-grid.tsx`)
+  - Halftone dot-matrix gradient overlay (prominent landing hero, subtle sitewide)
   - Updated landing/signin/app shell + creator page visuals, plus refreshed theme presets
 - First sign-in provisions:
   - `users` row, a personal `workspace`, `workspace_members` owner membership, and a `creator_profile`

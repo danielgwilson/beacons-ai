@@ -287,6 +287,119 @@
     }
   }
 
+  @keyframes halftone-drift {
+    0% {
+      -webkit-mask-position:
+        0 0,
+        18% 0%;
+      mask-position:
+        0 0,
+        18% 0%;
+    }
+    50% {
+      -webkit-mask-position:
+        0 0,
+        88% 14%;
+      mask-position:
+        0 0,
+        88% 14%;
+    }
+    100% {
+      -webkit-mask-position:
+        0 0,
+        32% 28%;
+      mask-position:
+        0 0,
+        32% 28%;
+    }
+  }
+
+  .halftone-dot-gradient {
+    --halftone-step: 18px;
+    --halftone-dot: 1.05px;
+    --halftone-soft: 0.95px;
+    --halftone-opacity: 0.12;
+    --halftone-mask-size: 240% 240%;
+
+    opacity: var(--halftone-opacity);
+    background-image:
+      radial-gradient(
+        780px 520px at 16% 18%,
+        var(--pixel-cloud-a),
+        transparent 62%
+      ),
+      radial-gradient(
+        860px 560px at 92% 16%,
+        var(--pixel-cloud-b),
+        transparent 64%
+      ),
+      radial-gradient(
+        680px 520px at 56% 6%,
+        var(--pixel-cloud-c),
+        transparent 62%
+      );
+    filter: saturate(1.08) contrast(1.03);
+    mix-blend-mode: multiply;
+
+    -webkit-mask-image:
+      radial-gradient(
+        circle at 50% 50%,
+        #000 0 var(--halftone-dot),
+        transparent calc(var(--halftone-dot) + var(--halftone-soft))
+      ),
+      radial-gradient(
+        68% 62% at 50% 12%,
+        #000 14%,
+        rgba(0, 0, 0, 0.88) 34%,
+        transparent 76%
+      );
+    -webkit-mask-repeat: repeat, no-repeat;
+    -webkit-mask-size:
+      var(--halftone-step) var(--halftone-step),
+      var(--halftone-mask-size);
+    -webkit-mask-position:
+      0 0,
+      18% 0%;
+
+    mask-image:
+      radial-gradient(
+        circle at 50% 50%,
+        #000 0 var(--halftone-dot),
+        transparent calc(var(--halftone-dot) + var(--halftone-soft))
+      ),
+      radial-gradient(
+        68% 62% at 50% 12%,
+        #000 14%,
+        rgba(0, 0, 0, 0.88) 34%,
+        transparent 76%
+      );
+    mask-repeat: repeat, no-repeat;
+    mask-size:
+      var(--halftone-step) var(--halftone-step),
+      var(--halftone-mask-size);
+    mask-position:
+      0 0,
+      18% 0%;
+
+    animation: halftone-drift 22s ease-in-out infinite;
+    transform: translateZ(0);
+    will-change: -webkit-mask-position, mask-position;
+  }
+
+  .halftone-dot-gradient--hero {
+    --halftone-step: 14px;
+    --halftone-dot: 1.35px;
+    --halftone-soft: 1.05px;
+    --halftone-opacity: 0.34;
+    --halftone-mask-size: 280% 280%;
+    filter: saturate(1.14) contrast(1.04);
+  }
+
+  .dark .halftone-dot-gradient {
+    mix-blend-mode: screen;
+    filter: saturate(1.18) contrast(1.02);
+  }
+
   .pixel-grid {
     background-image:
       linear-gradient(to right, oklch(0.17 0.02 265 / 8%) 1px, transparent 1px),
@@ -348,6 +461,10 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .halftone-dot-gradient {
+      animation: none;
+    }
+
     .pixel-grid,
     .creator-grid {
       animation: none;
