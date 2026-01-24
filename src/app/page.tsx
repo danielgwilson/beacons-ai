@@ -292,10 +292,7 @@ export default async function Home() {
                   </div>
                   <h2 className="brand-title mt-3 text-3xl leading-tight text-white sm:text-4xl">
                     Less noise.{" "}
-                    <span className="italic text-[oklch(0.9_0.12_70)]">
-                      More signal
-                    </span>
-                    .
+                    <span className="italic text-primary">More signal</span>.
                   </h2>
                   <p className="mt-2 text-sm text-white/70 sm:text-base">
                     A calmer canvas makes your work stand out — and the data
@@ -328,10 +325,7 @@ export default async function Home() {
                   <div>
                     <h2 className="brand-title text-3xl leading-tight text-white sm:text-4xl">
                       Make your bio link feel like a{" "}
-                      <span className="italic text-[oklch(0.9_0.12_70)]">
-                        brand
-                      </span>
-                      .
+                      <span className="italic text-primary">brand</span>.
                     </h2>
                     <p className="mt-2 max-w-2xl text-sm text-white/70 sm:text-base">
                       Start with Sundae, publish a real page, then iterate with

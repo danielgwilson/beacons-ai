@@ -95,10 +95,7 @@ export default function SignInPage() {
                 </div>
                 <h2 className="brand-title mt-3 text-2xl leading-snug text-white sm:text-3xl">
                   A calmer canvas — with a little{" "}
-                  <span className="italic text-[oklch(0.9_0.12_70)]">
-                    pixel magic
-                  </span>
-                  .
+                  <span className="italic text-primary">pixel magic</span>.
                 </h2>
                 <p className="mt-2 text-sm text-white/70 sm:text-base">
                   Sundae helps your work stand out, then shows you what
@@ -132,7 +129,7 @@ function ValueProp({ title, desc }: { title: string; desc: string }) {
   return (
     <div className="group flex items-start gap-3 rounded-2xl border border-white/10 bg-white/5 p-4 shadow-[0_30px_80px_-70px_oklch(0_0_0/85%)] backdrop-blur transition-[transform,box-shadow] duration-200 hover:-translate-y-1 hover:bg-white/7">
       <span className="mt-0.5 grid h-9 w-9 place-items-center rounded-2xl bg-white/10 text-white shadow-[inset_0_1px_0_oklch(1_0_0/20%)]">
-        <Sparkles className="h-4 w-4 text-[oklch(0.9_0.12_70)]" />
+        <Sparkles className="h-4 w-4 text-primary" />
       </span>
       <div>
         <div className="text-sm font-semibold tracking-tight text-white">
