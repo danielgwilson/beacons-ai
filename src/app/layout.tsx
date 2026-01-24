@@ -1,7 +1,10 @@
 import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
-import { Fragment_Mono, Instrument_Sans, Unbounded } from "next/font/google";
-import { PixelCloudGrid } from "@/components/brand/pixel-cloud-grid";
+import {
+  Fragment_Mono,
+  Instrument_Sans,
+  Playfair_Display,
+} from "next/font/google";
 import "./globals.css";
 
 const brandSans = Instrument_Sans({
@@ -9,9 +12,10 @@ const brandSans = Instrument_Sans({
   subsets: ["latin"],
 });
 
-const brandDisplay = Unbounded({
+const brandDisplay = Playfair_Display({
   variable: "--font-brand-display",
   subsets: ["latin"],
+  style: ["normal", "italic"],
 });
 
 const brandMono = Fragment_Mono({
@@ -36,7 +40,6 @@ export default function RootLayout({
       <body
         className={`${brandSans.variable} ${brandDisplay.variable} ${brandMono.variable} antialiased`}
       >
-        <PixelCloudGrid />
         {children}
         <Analytics />
       </body>
