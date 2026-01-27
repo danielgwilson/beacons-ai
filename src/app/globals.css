@@ -209,15 +209,22 @@
 
   /* Typography refinement: gradient text accent for key phrases */
   .brand-text-gradient {
-    background: linear-gradient(
-      135deg,
-      var(--primary) 0%,
-      oklch(0.74 0.16 225) 50%,
-      oklch(0.67 0.21 330) 100%
-    );
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: inherit;
+  }
+
+  @supports ((-webkit-background-clip: text) or (background-clip: text)) {
+    .brand-text-gradient {
+      background-image: linear-gradient(
+        135deg,
+        var(--primary) 0%,
+        oklch(0.74 0.16 225) 50%,
+        oklch(0.67 0.21 330) 100%
+      );
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+    }
   }
 
   /* Scroll-triggered section reveals */
@@ -498,7 +505,7 @@
   }
 
   .brand-embed-scale {
-    transform: scale(0.82);
+    transform: scale(0.9);
     transform-origin: top center;
   }
 
