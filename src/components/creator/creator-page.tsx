@@ -12,6 +12,7 @@ import {
 import Image from "next/image";
 import React from "react";
 import { CreatorAnalyticsBeacon } from "@/components/creator/analytics-beacon";
+import { CreatorActionBar } from "@/components/creator/creator-action-bar";
 import { CreatorNoiseField } from "@/components/creator/creator-noise-field";
 import type { BlockType } from "@/lib/blocks";
 import { type CreatorTheme, themeToStyle } from "@/lib/theme";
@@ -490,6 +491,7 @@ export function CreatorPage({
   disableAnalytics,
   embed,
   linkMode = "tracked",
+  isOwner,
 }: {
   profile: Profile;
   blocks: BlockRow[];
@@ -498,9 +500,11 @@ export function CreatorPage({
   disableAnalytics?: boolean;
   embed?: boolean;
   linkMode?: "tracked" | "direct";
+  isOwner?: boolean;
 }) {
   const showBadge = Boolean(showPreviewBadge && !hidePreviewBadge);
   const shouldTrack = !(disableAnalytics || showPreviewBadge);
+  const showActionBar = Boolean(isOwner && !embed && !showPreviewBadge);
 
   return (
     <div
@@ -512,6 +516,7 @@ export function CreatorPage({
         className={cn(
           "relative px-5 py-10 text-[var(--creator-text)]",
           embed ? "min-h-full" : "min-h-screen",
+          showActionBar && "pb-24",
         )}
       >
         <div
@@ -570,6 +575,7 @@ export function CreatorPage({
       </div>
 
       {shouldTrack ? <CreatorAnalyticsBeacon handle={profile.handle} /> : null}
+      {showActionBar ? <CreatorActionBar handle={profile.handle} /> : null}
     </div>
   );
 }

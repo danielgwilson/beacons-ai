@@ -4,6 +4,7 @@ import { BrandMark } from "@/components/brand/brand-mark";
 import { HalftoneDotGradient } from "@/components/brand/halftone-dot-gradient";
 import { CreatorPage } from "@/components/creator/creator-page";
 import { Button } from "@/components/ui/button";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { DEMO_BLOCKS, DEMO_PROFILE } from "@/lib/demo";
 import { THEME_PRESETS, type ThemePresetId } from "@/lib/theme-presets";
 import { cn } from "@/lib/utils";
@@ -92,9 +93,9 @@ export default async function Home() {
                 </div>
               </div>
 
-              <h1 className="brand-title text-[clamp(2.9rem,5.6vw,5.8rem)] leading-[0.86] tracking-[-0.06em]">
+              <h1 className="brand-title brand-display-hero text-[clamp(2.9rem,5.6vw,5.8rem)] leading-[0.86]">
                 A link‑in‑bio{" "}
-                <span className="italic text-primary">
+                <span className="brand-text-gradient italic">
                   that feels like a product
                 </span>
                 <span className="text-foreground/60"> — not a template.</span>
@@ -149,7 +150,7 @@ export default async function Home() {
             </div>
           </section>
 
-          <section id="features" className="mt-14">
+          <ScrollReveal id="features" className="mt-14">
             <div className="brand-card p-8 sm:p-10">
               <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
                 <div className="space-y-2">
@@ -182,32 +183,38 @@ export default async function Home() {
               </div>
 
               <div className="mt-8 grid gap-4 lg:grid-cols-3">
-                <FeatureCard
-                  eyebrow="01"
-                  title="Blocks, not bloat"
-                  desc="Links, embeds, socials, images, and forms — arranged like a tiny homepage."
-                />
-                <FeatureCard
-                  eyebrow="02"
-                  title="Leads built in"
-                  desc="Signup emails and contact messages, stored and ready."
-                />
-                <FeatureCard
-                  eyebrow="03"
-                  title="Know what converts"
-                  desc="Tracked clicks + analytics so you stop guessing what your audience taps."
-                />
+                <div className="reveal-child">
+                  <FeatureCard
+                    eyebrow="01"
+                    title="Blocks, not bloat"
+                    desc="Links, embeds, socials, images, and forms — arranged like a tiny homepage."
+                  />
+                </div>
+                <div className="reveal-child">
+                  <FeatureCard
+                    eyebrow="02"
+                    title="Leads built in"
+                    desc="Signup emails and contact messages, stored and ready."
+                  />
+                </div>
+                <div className="reveal-child">
+                  <FeatureCard
+                    eyebrow="03"
+                    title="Know what converts"
+                    desc="Tracked clicks + analytics so you stop guessing what your audience taps."
+                  />
+                </div>
               </div>
             </div>
-          </section>
+          </ScrollReveal>
 
-          <section className="mt-16">
+          <ScrollReveal className="mt-16">
             <div className="brand-card p-8 sm:p-10">
               <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
                 <div>
                   <h2 className="brand-title text-3xl leading-tight sm:text-4xl">
                     Your page should match your{" "}
-                    <span className="italic text-primary">taste</span>.
+                    <span className="brand-text-gradient italic">taste</span>.
                   </h2>
                   <p className="mt-2 max-w-2xl text-sm text-muted-foreground sm:text-base">
                     Start with a theme, then tune it until it feels like you.
@@ -232,18 +239,26 @@ export default async function Home() {
               </div>
 
               <div className="mt-8 grid gap-4 md:grid-cols-2">
-                <MiniPanel
-                  title="Signup + Contact"
-                  desc="Turn taps into conversations."
-                />
-                <MiniPanel title="Tracked links" desc="Every click counts." />
-                <MiniPanel title="Fast publishing" desc="Instant updates." />
-                <MiniPanel title="Domains" desc="Bring your own later." />
+                <div className="reveal-child">
+                  <MiniPanel
+                    title="Signup + Contact"
+                    desc="Turn taps into conversations."
+                  />
+                </div>
+                <div className="reveal-child">
+                  <MiniPanel title="Tracked links" desc="Every click counts." />
+                </div>
+                <div className="reveal-child">
+                  <MiniPanel title="Fast publishing" desc="Instant updates." />
+                </div>
+                <div className="reveal-child">
+                  <MiniPanel title="Domains" desc="Bring your own later." />
+                </div>
               </div>
             </div>
-          </section>
+          </ScrollReveal>
 
-          <section id="themes" className="mt-16">
+          <ScrollReveal id="themes" className="mt-16">
             <div className="brand-card p-8 sm:p-10">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
                 <div>
@@ -270,13 +285,15 @@ export default async function Home() {
                     "blueberry-soda",
                   ] as ThemePresetId[]
                 ).map((presetId) => (
-                  <ThemeCard key={presetId} presetId={presetId} />
+                  <div key={presetId} className="reveal-child">
+                    <ThemeCard presetId={presetId} />
+                  </div>
                 ))}
               </div>
             </div>
-          </section>
+          </ScrollReveal>
 
-          <section id="stories" className="mt-16">
+          <ScrollReveal id="stories" className="mt-16">
             <div className="brand-ink-panel">
               <div className="absolute inset-0 brand-matrix" />
               <div className="absolute -bottom-20 left-1/2 w-full -translate-x-1/2 text-center">
@@ -300,22 +317,26 @@ export default async function Home() {
                   </p>
                 </div>
                 <div className="grid gap-4">
-                  <Quote
-                    name="Maya Cruz"
-                    handle="@mayacruzzz"
-                    quote="I swapped themes and it actually matched my feed. No more default link‑in‑bio energy."
-                  />
-                  <Quote
-                    name="Ari Blake"
-                    handle="@ariblake"
-                    quote="Signup + contact on the same page saved me so many DMs. It feels like a real mini‑site."
-                  />
+                  <div className="reveal-child">
+                    <Quote
+                      name="Maya Cruz"
+                      handle="@mayacruzzz"
+                      quote="I swapped themes and it actually matched my feed. No more default link‑in‑bio energy."
+                    />
+                  </div>
+                  <div className="reveal-child">
+                    <Quote
+                      name="Ari Blake"
+                      handle="@ariblake"
+                      quote="Signup + contact on the same page saved me so many DMs. It feels like a real mini‑site."
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-          </section>
+          </ScrollReveal>
 
-          <section className="mt-16">
+          <ScrollReveal className="mt-16">
             <div className="brand-ink-panel">
               <div className="absolute inset-0 brand-matrix opacity-[0.85]" />
               <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-black/55 to-transparent" />
@@ -349,7 +370,7 @@ export default async function Home() {
                 </div>
 
                 <div className="mt-10 grid gap-8 border-t border-white/10 pt-8 sm:grid-cols-3">
-                  <div className="space-y-2">
+                  <div className="reveal-child space-y-2">
                     <div className="brand-mono text-[11px] uppercase tracking-[0.24em] text-white/60">
                       Platform
                     </div>
@@ -362,7 +383,7 @@ export default async function Home() {
                       </a>
                     </div>
                   </div>
-                  <div className="space-y-2">
+                  <div className="reveal-child space-y-2">
                     <div className="brand-mono text-[11px] uppercase tracking-[0.24em] text-white/60">
                       Account
                     </div>
@@ -375,7 +396,7 @@ export default async function Home() {
                       </a>
                     </div>
                   </div>
-                  <div className="space-y-2">
+                  <div className="reveal-child space-y-2">
                     <div className="brand-mono text-[11px] uppercase tracking-[0.24em] text-white/60">
                       Status
                     </div>
@@ -390,7 +411,7 @@ export default async function Home() {
                 </div>
               </div>
             </div>
-          </section>
+          </ScrollReveal>
         </main>
       </div>
     </div>
@@ -452,14 +473,43 @@ function MiniPanel({ title, desc }: { title: string; desc: string }) {
 
 function ThemeCard({ presetId }: { presetId: ThemePresetId }) {
   const preset = THEME_PRESETS[presetId];
+  const { theme } = preset;
 
   return (
-    <div className="brand-card overflow-hidden">
+    <div className="brand-card overflow-hidden transition-transform duration-200 hover:-translate-y-1">
+      {/* Mini-preview mockup */}
       <div
-        className="relative h-28"
-        style={{ background: preset.theme.background }}
+        className="relative h-36 p-4"
+        style={{ background: theme.background }}
       >
-        <div className="absolute inset-0 bg-gradient-to-t from-black/15 via-transparent to-transparent" />
+        <div className="flex flex-col items-center">
+          {/* Avatar placeholder */}
+          <div
+            className="h-8 w-8 rounded-full"
+            style={{ background: theme.cardBackground }}
+          />
+          {/* Name line */}
+          <div
+            className="mt-2 h-2 w-16 rounded-full"
+            style={{ background: theme.text }}
+          />
+          {/* Bio line */}
+          <div
+            className="mt-1.5 h-1.5 w-12 rounded-full opacity-50"
+            style={{ background: theme.mutedText }}
+          />
+          {/* Button */}
+          <div
+            className="mt-3 h-5 w-20 rounded-full"
+            style={{ background: theme.buttonBackground }}
+          />
+          {/* Link card */}
+          <div
+            className="mt-2 h-4 w-24 rounded-lg"
+            style={{ background: theme.cardBackground }}
+          />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent" />
       </div>
       <div className="p-5">
         <div className="text-sm font-semibold tracking-tight text-foreground">

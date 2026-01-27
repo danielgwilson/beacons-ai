@@ -196,6 +196,153 @@
     text-wrap: pretty;
   }
 
+  /* Typography refinement: hero display with responsive letter-spacing */
+  .brand-display-hero {
+    letter-spacing: -0.04em;
+  }
+
+  @media (min-width: 640px) {
+    .brand-display-hero {
+      letter-spacing: -0.06em;
+    }
+  }
+
+  /* Typography refinement: gradient text accent for key phrases */
+  .brand-text-gradient {
+    background: linear-gradient(
+      135deg,
+      var(--primary) 0%,
+      oklch(0.74 0.16 225) 50%,
+      oklch(0.67 0.21 330) 100%
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Scroll-triggered section reveals */
+  @keyframes reveal-up {
+    from {
+      opacity: 0;
+      transform: translateY(32px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .reveal-section {
+    opacity: 0;
+    animation: reveal-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-play-state: paused;
+  }
+
+  .reveal-section.revealed {
+    animation-play-state: running;
+  }
+
+  /* Stagger children animations */
+  .reveal-section .reveal-child {
+    opacity: 0;
+    animation: reveal-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-play-state: paused;
+  }
+
+  .reveal-section.revealed .reveal-child {
+    animation-play-state: running;
+  }
+
+  .reveal-section.revealed .reveal-child:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+  .reveal-section.revealed .reveal-child:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  .reveal-section.revealed .reveal-child:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+  .reveal-section.revealed .reveal-child:nth-child(4) {
+    animation-delay: 0.4s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal-section,
+    .reveal-section .reveal-child {
+      opacity: 1;
+      animation: none;
+      transform: none;
+    }
+  }
+
+  /* Ink drip page transition */
+  @keyframes ink-drip-enter {
+    0% {
+      clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+    }
+    50% {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+    100% {
+      clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
+    }
+  }
+
+  @keyframes ink-drip-exit {
+    0% {
+      clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+    }
+    100% {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+  }
+
+  .page-transition-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    background: var(--primary);
+  }
+
+  .page-transition-overlay.entering {
+    animation: ink-drip-exit 0.5s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  }
+
+  .page-transition-overlay.exiting {
+    animation: ink-drip-enter 0.5s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .page-transition-overlay {
+      display: none;
+    }
+  }
+
+  /* Floating action bar entrance */
+  @keyframes float-up {
+    from {
+      opacity: 0;
+      transform: translateY(24px) translateX(-50%);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) translateX(-50%);
+    }
+  }
+
+  .creator-action-bar {
+    animation: float-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards;
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .creator-action-bar {
+      animation: none;
+      opacity: 1;
+    }
+  }
+
   /* Marketing “paper + rails” wrapper (scoped via a top-level .marketing div). */
   .marketing {
     position: relative;

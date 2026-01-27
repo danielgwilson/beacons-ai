@@ -5,6 +5,7 @@ import {
   Instrument_Sans,
   Playfair_Display,
 } from "next/font/google";
+import { PageTransition } from "@/components/brand/page-transition";
 import "./globals.css";
 
 const brandSans = Instrument_Sans({
@@ -40,7 +41,7 @@ export default function RootLayout({
       <body
         className={`${brandSans.variable} ${brandDisplay.variable} ${brandMono.variable} antialiased`}
       >
-        {children}
+        <PageTransition>{children}</PageTransition>
         <Analytics />
       </body>
     </html>

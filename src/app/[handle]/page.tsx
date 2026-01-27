@@ -1,10 +1,11 @@
-import { asc, eq } from "drizzle-orm";
+import { and, asc, eq } from "drizzle-orm";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { auth } from "@/auth";
 import { CreatorPage } from "@/components/creator/creator-page";
 import { getDb } from "@/lib/db";
-import { blocks, creatorProfiles } from "@/lib/db/schema";
+import { blocks, creatorProfiles, workspaceMembers } from "@/lib/db/schema";
 import { normalizeHandle } from "@/lib/handles";
 import { coerceCreatorTheme } from "@/lib/theme";
 
@@ -48,9 +49,12 @@ export default async function CreatorHandlePage({
   const normalized = normalizeHandle(handle);
   const db = getDb();
 
-  const profile = await db.query.creatorProfiles.findFirst({
-    where: eq(creatorProfiles.handle, normalized),
-  });
+  const [session, profile] = await Promise.all([
+    auth(),
+    db.query.creatorProfiles.findFirst({
+      where: eq(creatorProfiles.handle, normalized),
+    }),
+  ]);
 
   if (!profile || !profile.published) notFound();
 
@@ -59,6 +63,18 @@ export default async function CreatorHandlePage({
     .from(blocks)
     .where(eq(blocks.profileId, profile.id))
     .orderBy(asc(blocks.sortOrder), asc(blocks.createdAt));
+
+  // Check if the current user is a member of the workspace that owns this profile
+  let isOwner = false;
+  if (session?.user?.id) {
+    const membership = await db.query.workspaceMembers.findFirst({
+      where: and(
+        eq(workspaceMembers.workspaceId, profile.workspaceId),
+        eq(workspaceMembers.userId, session.user.id),
+      ),
+    });
+    isOwner = !!membership;
+  }
 
   return (
     <CreatorPage
@@ -76,6 +92,7 @@ export default async function CreatorHandlePage({
         enabled: b.enabled,
         data: b.data,
       }))}
+      isOwner={isOwner}
     />
   );
 }
